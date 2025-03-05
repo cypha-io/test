@@ -1,8 +1,13 @@
 "use client";
 
-// import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+
+declare global {
+  interface Window {
+    TradingView: any;
+  }
+}
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
