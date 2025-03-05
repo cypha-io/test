@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 declare global {
   interface Window {
@@ -33,52 +35,53 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const script = document.createElement("script");
-      script.src = "https://s3.tradingview.com/tv.js";
-      script.async = true;
-      script.onload = () => {
-        console.log("TradingView script loaded");
-        if (window.TradingView) {
-          new window.TradingView.widget({
-            container_id: "tradingview_chart",
-            autosize: true,
-            symbol: "BITSTAMP:BTCUSD",
-            interval: "D",
-            timezone: "Etc/UTC",
-            theme: "dark",
-            style: "1",
-            locale: "en",
-            toolbar_bg: "#000000",
-            enable_publishing: false,
-            allow_symbol_change: true,
-            save_image: false,
-            hide_top_toolbar: true,
-            backgroundColor: "transparent",
-          });
-        } else {
-          console.error("TradingView is not available on window");
-        }
-      };
-      script.onerror = () => {
-        console.error("Failed to load TradingView script");
-      };
-      document.body.appendChild(script);
-    }
+    const script = document.createElement("script");
+    script.src = "https://s3.tradingview.com/tv.js";
+    script.async = true;
+    script.onload = () => {
+      console.log("TradingView script loaded");
+      if (window.TradingView) {
+        new window.TradingView.widget({
+          container_id: "tradingview_chart",
+          autosize: true,
+          symbol: "BITSTAMP:BTCUSD",
+          interval: "D",
+          timezone: "Etc/UTC",
+          theme: "dark",
+          style: "1",
+          locale: "en",
+          toolbar_bg: "#000000",
+          enable_publishing: false,
+          allow_symbol_change: true,
+          save_image: false,
+          hide_top_toolbar: true,
+          backgroundColor: "transparent",
+        });
+      } else {
+        console.error("TradingView is not available on window");
+      }
+    };
+    script.onerror = () => {
+      console.error("Failed to load TradingView script");
+    };
+    document.body.appendChild(script);
   }, []);
 
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
+    toast.success("Logged in successfully");
     router.push("/userdashboard");
   };
 
   const handleSignup = (event: React.FormEvent) => {
     event.preventDefault();
+    toast.success("Signed up successfully");
     router.push("/userdashboard");
   };
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <ToastContainer />
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
         <img
           src="https://cryptologos.cc/logos/bitcoin-btc-logo.png"

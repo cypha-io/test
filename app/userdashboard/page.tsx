@@ -32,6 +32,10 @@ declare global {
 const UserDashboard = () => {
   const [darkMode] = useState(false);
   const [showBuyBitcoin, setShowBuyBitcoin] = useState(false);
+  const [showWithdrawBitcoin, setShowWithdrawBitcoin] = useState(false);
+  const [withdrawWallet, setWithdrawWallet] = useState("");
+  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [withdrawCurrency, setWithdrawCurrency] = useState("USD");
   const router = useRouter();
 
   const profit = 188.00;
@@ -88,6 +92,15 @@ const UserDashboard = () => {
     toast.success("Payment confirmed! You will receive your Bitcoin shortly.");
   };
 
+  const handlePayout = () => {
+    if (withdrawWallet && withdrawAmount) {
+      setShowWithdrawBitcoin(false);
+      toast.success(`Payout of ${withdrawAmount} ${withdrawCurrency} initiated to the provided wallet address.`);
+    } else {
+      toast.error("Please enter a valid Bitcoin wallet address and amount.");
+    }
+  };
+
   return (
     <div className={`min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)] ${darkMode ? "dark" : ""}`}>
       <ToastContainer />
@@ -101,7 +114,10 @@ const UserDashboard = () => {
             <FaShoppingCart className="text-lg" />
             Buy Bitcoin
           </button>
-          <button className="border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-red-500 text-white gap-2 hover:bg-red-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
+          <button
+            className="border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-red-500 text-white gap-2 hover:bg-red-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            onClick={() => setShowWithdrawBitcoin(true)}
+          >
             <FaArrowCircleDown className="text-lg" />
             Withdraw Bitcoin
           </button>
@@ -184,6 +200,55 @@ const UserDashboard = () => {
                 onClick={handleAlreadyPaid}
               >
                 Already Paid
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showWithdrawBitcoin && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
+            <h2 className="text-2xl font-bold mb-4 text-black">Withdraw Bitcoin</h2>
+            <p className="mb-4 text-black">Enter the Bitcoin wallet address to withdraw to:</p>
+            <input
+              className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+              type="text"
+              value={withdrawWallet}
+              onChange={(e) => setWithdrawWallet(e.target.value)}
+              placeholder="Bitcoin Wallet Address"
+              required
+            />
+            <p className="mb-4 text-black">Enter the amount to withdraw:</p>
+            <input
+              className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+              type="text"
+              value={withdrawAmount}
+              onChange={(e) => setWithdrawAmount(e.target.value)}
+              placeholder="Amount"
+              required
+            />
+            <label htmlFor="currency-select" className="mb-4 text-black">Select currency:</label>
+            <select
+              id="currency-select"
+              className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+              value={withdrawCurrency}
+              onChange={(e) => setWithdrawCurrency(e.target.value)}
+            >
+              <option value="USD">USD</option>
+              <option value="BTC">BTC</option>
+            </select>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded-lg text-black"
+                onClick={() => setShowWithdrawBitcoin(false)}
+              >
+                Close
+              </button>
+              <button
+                className="px-4 py-2 bg-green-500 text-white rounded-lg"
+                onClick={handlePayout}
+              >
+                Payout
               </button>
             </div>
           </div>

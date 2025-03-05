@@ -1,6 +1,9 @@
-import type { Metadata } from "next";
+"use client";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+// import { useEffect } from "react";
+// import { useRouter } from "next/navigation"; // Updated import
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,16 +15,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Bitvest",
-  description: "Discover the future of finance with Bitcoin",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <head>
