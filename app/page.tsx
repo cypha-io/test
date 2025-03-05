@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 
 declare global {
@@ -29,6 +30,7 @@ declare global {
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -64,6 +66,16 @@ export default function Home() {
       document.body.appendChild(script);
     }
   }, []);
+
+  const handleLogin = (event: React.FormEvent) => {
+    event.preventDefault();
+    router.push("/userdashboard");
+  };
+
+  const handleSignup = (event: React.FormEvent) => {
+    event.preventDefault();
+    router.push("/userdashboard");
+  };
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
@@ -122,7 +134,7 @@ export default function Home() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
             <h2 className="text-2xl font-bold mb-4 text-black">Login</h2>
-            <form>
+            <form onSubmit={handleLogin}>
               <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
                 <FaEnvelope className="mr-2 text-gray-500" />
                 <input
@@ -168,7 +180,7 @@ export default function Home() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
             <h2 className="text-2xl font-bold mb-4 text-black">Sign Up</h2>
-            <form>
+            <form onSubmit={handleSignup}>
               <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
                 <FaUser className="mr-2 text-gray-500" />
                 <input
