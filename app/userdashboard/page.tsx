@@ -28,7 +28,7 @@ declare global {
 }
 
 const UserDashboard = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
