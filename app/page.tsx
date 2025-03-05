@@ -1,101 +1,200 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 
 export default function Home() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/tv.js";
+      script.async = true;
+      script.onload = () => {
+        console.log("TradingView script loaded");
+        new window.TradingView.widget({
+          container_id: "tradingview_chart",
+          autosize: true,
+          symbol: "BITSTAMP:BTCUSD",
+          interval: "D",
+          timezone: "Etc/UTC",
+          theme: "light",
+          style: "1",
+          locale: "en",
+          toolbar_bg: "#f1f3f6",
+          enable_publishing: false,
+          allow_symbol_change: true,
+          save_image: false,
+          hide_top_toolbar: true,
+          backgroundColor: "transparent",
+        });
+      };
+      script.onerror = () => {
+        console.error("Failed to load TradingView script");
+      };
+      document.body.appendChild(script);
+    }
+  }, []);
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+        <img
+          src="https://cryptologos.cc/logos/bitcoin-btc-logo.png"
+          alt="Bitcoin Logo"
+          width="100"
+          height="100"
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
+        <h1 className="text-4xl font-bold">Welcome to Bitvest.org</h1>
+        <p className="text-lg text-center sm:text-left">
+          Discover the future of finance with Bitcoin. Secure, decentralized, and global.
+        </p>
         <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
+          <button
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => setShowLogin(true)}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
+            Login
+          </button>
+          <button
             className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => setShowSignup(true)}
           >
-            Read our docs
-          </a>
+            Sign Up
+          </button>
         </div>
+        <section className="features mt-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+            <div className="card">
+              <img src="https://img.icons8.com/ios-filled/50/000000/security-checked.png" alt="Secure Transactions" className="icon" />
+              <h3 className="text-xl font-semibold">Secure Transactions</h3>
+              <p>Experience the security of blockchain technology.</p>
+            </div>
+            <div className="card">
+              <img src="https://img.icons8.com/ios-filled/50/000000/globe.png" alt="Global Reach" className="icon" />
+              <h3 className="text-xl font-semibold">Global Reach</h3>
+              <p>Send and receive Bitcoin anywhere in the world.</p>
+            </div>
+            <div className="card">
+              <img src="https://img.icons8.com/ios-filled/50/000000/decentralized-network.png" alt="Decentralized Network" className="icon" />
+              <h3 className="text-xl font-semibold">Decentralized Network</h3>
+              <p>Join a network that is not controlled by any single entity.</p>
+            </div>
+          </div>
+        </section>
+        <section className="chart mt-8 w-full">
+          <div id="tradingview_chart" className="w-full h-96 border border-solid border-gray-300 rounded-lg"></div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      <footer className="row-start-3 flex items-center justify-center">
+        <p>&copy; 2025 Bitvest. All rights reserved.</p>
       </footer>
+      {showLogin && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
+            <h2 className="text-2xl font-bold mb-4 text-black">Login</h2>
+            <form>
+              <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
+                <FaEnvelope className="mr-2 text-gray-500" />
+                <input
+                  className="w-full px-3 py-2 bg-transparent border-none focus:outline-none text-black"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                />
+              </div>
+              <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
+                <FaLock className="mr-2 text-gray-500" />
+                <input
+                  className="w-full px-3 py-2 bg-transparent border-none focus:outline-none text-black"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  className="mr-4 px-4 py-2 bg-gray-300 rounded-lg text-black"
+                  onClick={() => setShowLogin(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-orange-500 text-white rounded-lg"
+                >
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {showSignup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
+            <h2 className="text-2xl font-bold mb-4 text-black">Sign Up</h2>
+            <form>
+              <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
+                <FaUser className="mr-2 text-gray-500" />
+                <input
+                  className="w-full px-3 py-2 bg-transparent border-none focus:outline-none text-black"
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Username"
+                  required
+                />
+              </div>
+              <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
+                <FaEnvelope className="mr-2 text-gray-500" />
+                <input
+                  className="w-full px-3 py-2 bg-transparent border-none focus:outline-none text-black"
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                />
+              </div>
+              <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
+                <FaLock className="mr-2 text-gray-500" />
+                <input
+                  className="w-full px-3 py-2 bg-transparent border-none focus:outline-none text-black"
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  required
+                />
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  className="mr-4 px-4 py-2 bg-gray-300 rounded-lg text-black"
+                  onClick={() => setShowSignup(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-orange-500 text-white rounded-lg"
+                >
+                  Sign Up
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
