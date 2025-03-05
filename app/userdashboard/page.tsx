@@ -112,27 +112,27 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">1</p>
+            <p className="text-black dark:text-white">2</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Total Balance</h3>
-            <p className="text-black dark:text-white">$1,113.00</p>
+            <p className="text-black dark:text-white">$2,182.00</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.01275 BTC</p>
+            <p className="text-black dark:text-white">0.02492 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Profit</h3>
-            <p className="text-black dark:text-white">$119.00</p>
+            <p className="text-black dark:text-white">$188.00</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaDollarSign className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Total Investment</h3>
-            <p className="text-black dark:text-white">$994.00</p>
+            <p className="text-black dark:text-white">$2,063.00</p>
           </div>
         </div>
         <section className="chart mt-8 w-full">
