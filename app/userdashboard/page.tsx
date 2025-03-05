@@ -85,7 +85,7 @@ const UserDashboard = () => {
 
   const handleAlreadyPaid = () => {
     setShowBuyBitcoin(false);
-    toast.success("Payment confirmed");
+    toast.success("Payment confirmed! You will receive your Bitcoin shortly.");
   };
 
   return (
