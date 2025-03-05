@@ -126,17 +126,6 @@ export default function Home() {
         <section className="chart mt-8 w-full">
           <div id="tradingview_chart" className="w-full h-96 border border-solid border-gray-300 rounded-lg"></div>
         </section>
-        <div className="flex gap-4 items-center flex-col sm:flex-row mt-8">
-          <button className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
-            Buy Bitcoin
-          </button>
-          <button className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-red-500 text-white gap-2 hover:bg-red-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
-            Withdraw Bitcoin
-          </button>
-          <button className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-gray-500 text-white gap-2 hover:bg-gray-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
-            Logout
-          </button>
-        </div>
       </main>
       <footer className="row-start-3 flex items-center justify-center">
         <p>&copy; 2025 Bitvest. All rights reserved.</p>
