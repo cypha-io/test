@@ -46,10 +46,10 @@ export default function Home() {
             symbol: "BITSTAMP:BTCUSD",
             interval: "D",
             timezone: "Etc/UTC",
-            theme: "light",
+            theme: "dark",
             style: "1",
             locale: "en",
-            toolbar_bg: "#f1f3f6",
+            toolbar_bg: "#000000",
             enable_publishing: false,
             allow_symbol_change: true,
             save_image: false,
@@ -107,17 +107,17 @@ export default function Home() {
         <section className="features mt-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             <div className="card">
-              <img src="https://img.icons8.com/ios-filled/50/000000/security-checked.png" alt="Secure Transactions" className="icon" />
+              <img src="https://img.icons8.com/ios-filled/50/ffffff/security-checked.png" alt="Secure Transactions" className="icon" />
               <h3 className="text-xl font-semibold">Secure Transactions</h3>
               <p>Experience the security of blockchain technology.</p>
             </div>
             <div className="card">
-              <img src="https://img.icons8.com/ios-filled/50/000000/globe.png" alt="Global Reach" className="icon" />
+              <img src="https://img.icons8.com/ios-filled/50/ffffff/globe.png" alt="Global Reach" className="icon" />
               <h3 className="text-xl font-semibold">Global Reach</h3>
               <p>Send and receive Bitcoin anywhere in the world.</p>
             </div>
             <div className="card">
-              <img src="https://img.icons8.com/ios-filled/50/000000/decentralized-network.png" alt="Decentralized Network" className="icon" />
+              <img src="https://img.icons8.com/ios-filled/50/ffffff/decentralized-network.png" alt="Decentralized Network" className="icon" />
               <h3 className="text-xl font-semibold">Decentralized Network</h3>
               <p>Join a network that is not controlled by any single entity.</p>
             </div>
@@ -126,6 +126,17 @@ export default function Home() {
         <section className="chart mt-8 w-full">
           <div id="tradingview_chart" className="w-full h-96 border border-solid border-gray-300 rounded-lg"></div>
         </section>
+        <div className="flex gap-4 items-center flex-col sm:flex-row mt-8">
+          <button className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
+            Buy Bitcoin
+          </button>
+          <button className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-red-500 text-white gap-2 hover:bg-red-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
+            Withdraw Bitcoin
+          </button>
+          <button className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-gray-500 text-white gap-2 hover:bg-gray-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
+            Logout
+          </button>
+        </div>
       </main>
       <footer className="row-start-3 flex items-center justify-center">
         <p>&copy; 2025 Bitvest. All rights reserved.</p>
