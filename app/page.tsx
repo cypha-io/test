@@ -5,7 +5,24 @@ import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 
 declare global {
   interface Window {
-    TradingView: any;
+    TradingView: {
+      widget: new (options: {
+        container_id: string;
+        autosize: boolean;
+        symbol: string;
+        interval: string;
+        timezone: string;
+        theme: string;
+        style: string;
+        locale: string;
+        toolbar_bg: string;
+        enable_publishing: boolean;
+        allow_symbol_change: boolean;
+        save_image: boolean;
+        hide_top_toolbar: boolean;
+        backgroundColor: string;
+      }) => void;
+    };
   }
 }
 
@@ -20,22 +37,26 @@ export default function Home() {
       script.async = true;
       script.onload = () => {
         console.log("TradingView script loaded");
-        new window.TradingView.widget({
-          container_id: "tradingview_chart",
-          autosize: true,
-          symbol: "BITSTAMP:BTCUSD",
-          interval: "D",
-          timezone: "Etc/UTC",
-          theme: "light",
-          style: "1",
-          locale: "en",
-          toolbar_bg: "#f1f3f6",
-          enable_publishing: false,
-          allow_symbol_change: true,
-          save_image: false,
-          hide_top_toolbar: true,
-          backgroundColor: "transparent",
-        });
+        if (window.TradingView) {
+          new window.TradingView.widget({
+            container_id: "tradingview_chart",
+            autosize: true,
+            symbol: "BITSTAMP:BTCUSD",
+            interval: "D",
+            timezone: "Etc/UTC",
+            theme: "light",
+            style: "1",
+            locale: "en",
+            toolbar_bg: "#f1f3f6",
+            enable_publishing: false,
+            allow_symbol_change: true,
+            save_image: false,
+            hide_top_toolbar: true,
+            backgroundColor: "transparent",
+          });
+        } else {
+          console.error("TradingView is not available on window");
+        }
       };
       script.onerror = () => {
         console.error("Failed to load TradingView script");
