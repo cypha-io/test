@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt } from "react-icons/fa";
+import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 declare global {
   interface Window {
@@ -29,6 +31,7 @@ declare global {
 
 const UserDashboard = () => {
   const [darkMode] = useState(false);
+  const [showBuyBitcoin, setShowBuyBitcoin] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -68,14 +71,29 @@ const UserDashboard = () => {
 
   const handleLogout = () => {
     router.push("/");
+    toast.success("Logged out successfully");
+  };
+
+  const handleCopyWallet = () => {
+    navigator.clipboard.writeText("bc1p3dkxtw8z8dqsu7rcxm0qrpnc6cx2rkpmw37tplpwktvjkf6k53ns46afze");
+    toast.success("Wallet address copied to clipboard");
+  };
+
+  const handleAlreadyPaid = () => {
+    setShowBuyBitcoin(false);
+    toast.success("Payment confirmed");
   };
 
   return (
     <div className={`min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)] ${darkMode ? "dark" : ""}`}>
+      <ToastContainer />
       <header className="flex flex-col items-center sm:items-start mb-4 w-full">
-        <h1 className="text-4xl font-bold">Welcome Don Mullins</h1>
+        <h1 className="text-4xl font-bold text-black dark:text-white">Welcome Don Mullins</h1>
         <div className="flex gap-4 mt-4">
-          <button className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
+          <button
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            onClick={() => setShowBuyBitcoin(true)}
+          >
             <FaShoppingCart className="text-lg" />
             Buy Bitcoin
           </button>
@@ -93,28 +111,28 @@ const UserDashboard = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 mt-4 w-full">
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
-            <h3 className="text-xl font-semibold mb-2">Transactions</h3>
-            <p>1</p>
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
+            <p className="text-black dark:text-white">1</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
-            <h3 className="text-xl font-semibold mb-2">Total Balance</h3>
-            <p>$1,113.00</p>
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Total Balance</h3>
+            <p className="text-black dark:text-white">$1,113.00</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
-            <h3 className="text-xl font-semibold mb-2">BTC Balance</h3>
-            <p>0.01275 BTC</p>
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
+            <p className="text-black dark:text-white">0.01275 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
-            <h3 className="text-xl font-semibold mb-2">Profit</h3>
-            <p>$119.00</p>
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Profit</h3>
+            <p className="text-black dark:text-white">$119.00</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaDollarSign className="text-2xl mb-2 text-primary" />
-            <h3 className="text-xl font-semibold mb-2">Total Investment</h3>
-            <p>$994.00</p>
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Total Investment</h3>
+            <p className="text-black dark:text-white">$994.00</p>
           </div>
         </div>
         <section className="chart mt-8 w-full">
@@ -123,24 +141,50 @@ const UserDashboard = () => {
         <section className="widgets mt-8 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="widget bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <img src="https://img.icons8.com/ios-filled/50/ffffff/security-checked.png" alt="Secure Transactions" className="icon" />
-            <h3 className="text-xl font-semibold mb-2">Secure Transactions</h3>
-            <p>Experience the security of blockchain technology.</p>
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Secure Transactions</h3>
+            <p className="text-black dark:text-white">Experience the security of blockchain technology.</p>
           </div>
           <div className="widget bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <img src="https://img.icons8.com/ios-filled/50/ffffff/globe.png" alt="Global Reach" className="icon" />
-            <h3 className="text-xl font-semibold mb-2">Global Reach</h3>
-            <p>Send and receive Bitcoin anywhere in the world.</p>
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Global Reach</h3>
+            <p className="text-black dark:text-white">Send and receive Bitcoin anywhere in the world.</p>
           </div>
           <div className="widget bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
             <img src="https://img.icons8.com/ios-filled/50/ffffff/decentralized-network.png" alt="Decentralized Network" className="icon" />
-            <h3 className="text-xl font-semibold mb-2">Decentralized Network</h3>
-            <p>Join a network that is not controlled by any single entity.</p>
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Decentralized Network</h3>
+            <p className="text-black dark:text-white">Join a network that is not controlled by any single entity.</p>
           </div>
         </section>
       </main>
       <footer className="flex items-center justify-center p-4 bg-transparent text-foreground">
-        <p>&copy; 2025 Bitvest. All rights reserved.</p>
+        <p className="text-black dark:text-white">&copy; 2025 Bitvest. All rights reserved.</p>
       </footer>
+      {showBuyBitcoin && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
+            <h2 className="text-2xl font-bold mb-4 text-black">Buy Bitcoin</h2>
+            <p className="mb-4 text-black">Send Bitcoin to the following wallet address:</p>
+            <p className="mb-4 font-mono text-black flex items-center gap-2 cursor-pointer" onClick={handleCopyWallet}>
+              bc1p3dkxtw8z8dqsu7rcxm0qrpnc6cx2rkpmw37tplpwktvjkf6k53ns46afze
+              <FaCopy className="text-lg" />
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded-lg text-black"
+                onClick={() => setShowBuyBitcoin(false)}
+              >
+                Close
+              </button>
+              <button
+                className="px-4 py-2 bg-green-500 text-white rounded-lg"
+                onClick={handleAlreadyPaid}
+              >
+                Already Paid
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
