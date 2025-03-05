@@ -34,6 +34,10 @@ const UserDashboard = () => {
   const [showBuyBitcoin, setShowBuyBitcoin] = useState(false);
   const router = useRouter();
 
+  const profit = 188.00;
+  const totalInvestment = 2063.00;
+  const totalBalance = profit + totalInvestment;
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const script = document.createElement("script");
@@ -91,17 +95,17 @@ const UserDashboard = () => {
         <h1 className="text-4xl font-bold text-black dark:text-white">Welcome Don Mullins</h1>
         <div className="flex gap-4 mt-4">
           <button
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            className="border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             onClick={() => setShowBuyBitcoin(true)}
           >
             <FaShoppingCart className="text-lg" />
             Buy Bitcoin
           </button>
-          <button className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-red-500 text-white gap-2 hover:bg-red-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
+          <button className="border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-red-500 text-white gap-2 hover:bg-red-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5">
             <FaArrowCircleDown className="text-lg" />
             Withdraw Bitcoin
           </button>
-          <button className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-gray-500 text-white gap-2 hover:bg-gray-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5" onClick={handleLogout}>
+          <button className="border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-gray-500 text-white gap-2 hover:bg-gray-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5" onClick={handleLogout}>
             <FaSignOutAlt className="text-lg" />
             Logout
           </button>
@@ -117,7 +121,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Total Balance</h3>
-            <p className="text-black dark:text-white">$2,182.00</p>
+            <p className="text-black dark:text-white">${totalBalance.toFixed(2)}</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
@@ -127,12 +131,12 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Profit</h3>
-            <p className="text-black dark:text-white">$188.00</p>
+            <p className="text-black dark:text-white">${profit.toFixed(2)}</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaDollarSign className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Total Investment</h3>
-            <p className="text-black dark:text-white">$2,063.00</p>
+            <p className="text-black dark:text-white">${totalInvestment.toFixed(2)}</p>
           </div>
         </div>
         <section className="chart mt-8 w-full">

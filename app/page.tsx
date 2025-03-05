@@ -136,13 +136,13 @@ export default function Home() {
             <h2 className="text-2xl font-bold mb-4 text-black">Login</h2>
             <form onSubmit={handleLogin}>
               <div className="mb-4 flex items-center border-b border-gray-300 pb-2">
-                <FaEnvelope className="mr-2 text-gray-500" />
+                <FaUser className="mr-2 text-gray-500" />
                 <input
                   className="w-full px-3 py-2 bg-transparent border-none focus:outline-none text-black"
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
+                  type="text"
+                  id="usernameOrEmail"
+                  name="usernameOrEmail"
+                  placeholder="Username or Email"
                   required
                 />
               </div>
