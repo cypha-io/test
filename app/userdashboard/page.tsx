@@ -38,9 +38,9 @@ const UserDashboard = () => {
   const [withdrawCurrency, setWithdrawCurrency] = useState("USD");
   const router = useRouter();
 
-  const profit = 1374.00;
-  const totalInvestment = 4415.00;
-  const totalBalance = 5789.00;
+  const profit = 1769.00;
+  const totalInvestment = 4715.00;
+  const totalBalance = 6484.00;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -142,7 +142,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.057948 BTC</p>
+            <p className="text-black dark:text-white">0.07791 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
