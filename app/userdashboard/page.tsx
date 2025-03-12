@@ -2,13 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaEnvelope, FaLock, FaCheckSquare, FaSquare } from "react-icons/fa";
+import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 declare global {
   interface Window {
-    TradingView: {
+    TradingView: { 
       widget: new (options: {
         container_id: string;
         autosize: boolean;
@@ -134,7 +134,7 @@ const UserDashboard = () => {
         } else {
           toast.error("Failed to save password.");
         }
-      } catch (error) {
+      } catch {
         toast.error("An error occurred while saving the password.");
       }
     } else {

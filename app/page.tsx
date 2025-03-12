@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 declare global {
   interface Window {
     TradingView: {
-      widget: new (options: {
+      widget: new (options: { 
         container_id: string;
         autosize: boolean;
         symbol: string;

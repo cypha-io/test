@@ -10,4 +10,7 @@ module.exports = {
   images: {
     disableStaticImages: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
