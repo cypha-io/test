@@ -38,9 +38,9 @@ const UserDashboard = () => {
   const [withdrawCurrency, setWithdrawCurrency] = useState("USD");
   const router = useRouter();
 
-  const profit = 2349.00;
+  const profit = 2549.00;
   const totalInvestment = 5003.00;
-  const totalBalance = 7352.00;
+  const totalBalance = 7552.00;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
