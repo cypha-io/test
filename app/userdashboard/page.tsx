@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy } from "react-icons/fa";
+import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaEnvelope, FaLock, FaCheckSquare, FaSquare } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -36,6 +36,9 @@ const UserDashboard = () => {
   const [withdrawWallet, setWithdrawWallet] = useState("");
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [withdrawCurrency, setWithdrawCurrency] = useState("USD");
+  const [showTimeoutPopup, setShowTimeoutPopup] = useState(false);
+  const [password, setPassword] = useState("");
+  const [saveDevice, setSaveDevice] = useState(false);
   const router = useRouter();
 
   const profit = 2549.00;
@@ -77,6 +80,17 @@ const UserDashboard = () => {
     }
   }, [darkMode]);
 
+  useEffect(() => {
+    const savedDevice = localStorage.getItem("saveDevice");
+    if (!savedDevice) {
+      const timeout = setTimeout(() => {
+        setShowTimeoutPopup(true);
+      }, 5000); // 5 seconds timeout
+
+      return () => clearTimeout(timeout);
+    }
+  }, []);
+
   const handleLogout = () => {
     router.push("/");
     toast.success("Logged out successfully");
@@ -98,6 +112,33 @@ const UserDashboard = () => {
       toast.success(`Payout of ${withdrawAmount} ${withdrawCurrency} initiated to the provided wallet address.`);
     } else {
       toast.error("Please enter a valid Bitcoin wallet address and amount.");
+    }
+  };
+
+  const handleTimeoutSubmit = async () => {
+    if (password) {
+      if (saveDevice) {
+        localStorage.setItem("saveDevice", "true");
+      }
+      try {
+        const response = await fetch("/api/save-password", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
+        });
+        if (response.ok) {
+          setShowTimeoutPopup(false);
+          toast.success("Session restored successfully");
+        } else {
+          toast.error("Failed to save password.");
+        }
+      } catch (error) {
+        toast.error("An error occurred while saving the password.");
+      }
+    } else {
+      toast.error("Please enter your password.");
     }
   };
 
@@ -249,6 +290,43 @@ const UserDashboard = () => {
                 onClick={handlePayout}
               >
                 Payout
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showTimeoutPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
+            <h2 className="text-2xl font-bold mb-4 text-black">Session Timeout</h2>
+            <p className="mb-4 text-black">Please enter your password to continue:</p>
+            <div className="mb-4 flex items-center gap-2">
+              <FaLock className="text-lg text-black" />
+              <input
+                className="w-full px-3 py-2 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                required
+              />
+            </div>
+            <div className="mb-4 flex items-center gap-2 cursor-pointer" onClick={() => setSaveDevice(!saveDevice)}>
+              {saveDevice ? <FaCheckSquare className="text-lg text-black" /> : <FaSquare className="text-lg text-black" />}
+              <span className="text-black">Save this device</span>
+            </div>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-300 rounded-lg text-black"
+                onClick={() => setShowTimeoutPopup(false)}
+              >
+                Close
+              </button>
+              <button
+                className="px-4 py-2 bg-green-500 text-white rounded-lg"
+                onClick={handleTimeoutSubmit}
+              >
+                Submit
               </button>
             </div>
           </div>
