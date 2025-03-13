@@ -41,9 +41,9 @@ const UserDashboard = () => {
   const [saveDevice, setSaveDevice] = useState(false);
   const router = useRouter();
 
-  const profit = 2549.00;
-  const totalInvestment = 5003.00;
-  const totalBalance = 7552.00;
+  const profit = 2802.00;
+  const totalInvestment = 5782.00;
+  const totalBalance = 8583.00;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -173,7 +173,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">10</p>
+            <p className="text-black dark:text-white">11</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
@@ -183,7 +183,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.09121 BTC</p>
+            <p className="text-black dark:text-white">0.10 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
