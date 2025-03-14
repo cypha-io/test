@@ -41,9 +41,9 @@ const UserDashboard = () => {
   const [saveDevice, setSaveDevice] = useState(false);
   const router = useRouter();
 
-  const profit = 2802.00;
+  const profit = 3091.00;
   const totalInvestment = 5782.00;
-  const totalBalance = 8583.00;
+  const totalBalance = 8872.00;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
