@@ -97,7 +97,7 @@ const UserDashboard = () => {
   };
 
   const handleCopyWallet = () => {
-    navigator.clipboard.writeText("bc1p3dkxtw8z8dqsu7rcxm0qrpnc6cx2rkpmw37tplpwktvjkf6k53ns46afze");
+    navigator.clipboard.writeText("bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804");
     toast.success("Wallet address copied to clipboard");
   };
 
@@ -226,7 +226,7 @@ const UserDashboard = () => {
             <h2 className="text-2xl font-bold mb-4 text-black">Buy Bitcoin</h2>
             <p className="mb-4 text-black">Send Bitcoin to the following wallet address:</p>
             <p className="mb-4 font-mono text-black flex items-center gap-2 cursor-pointer" onClick={handleCopyWallet}>
-              bc1p3dkxtw8z8dqsu7rcxm0qrpnc6cx2rkpmw37tplpwktvjkf6k53ns46afze
+              bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
               <FaCopy className="text-lg" />
             </p>
             <div className="flex justify-end gap-4">
