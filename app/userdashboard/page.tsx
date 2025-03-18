@@ -43,7 +43,7 @@ const UserDashboard = () => {
 
   const profit = 4144.00;
   const totalInvestment = 6976.00;
-  const totalBalance = 65000.00;
+  const totalBalance = 11120.00;
 
   useEffect(() => {
     if (typeof window !== "undefined") {
