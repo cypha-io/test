@@ -42,7 +42,7 @@ const UserDashboard = () => {
   const router = useRouter();
 
   const profit = 7249.00;
-  const totalInvestment = 10,084.00;
+  const totalInvestment = 10084.00;
   const totalBalance = 17333.00;
 
   useEffect(() => {
