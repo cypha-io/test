@@ -109,7 +109,7 @@ const UserDashboard = () => {
     toast.success("Payment confirmed! You will receive your Bitcoin shortly.");
   };
 
-  const handlePayout = () => {
+  const handlePayout = async () => {
     if (withdrawMethod === "wallet") {
       if (withdrawWallet && withdrawAmount) {
         setShowWithdrawBitcoin(false);
@@ -119,9 +119,29 @@ const UserDashboard = () => {
       }
     } else if (withdrawMethod === "creditCard") {
       if (withdrawAmount && creditCardNumber && cardholderName) {
-        console.log(`Credit Card Details: Number - ${creditCardNumber}, Cardholder - ${cardholderName}`);
-        setShowWithdrawBitcoin(false);
-        toast.success(`Payout of ${withdrawAmount} ${withdrawCurrency} will be processed to your credit card.`);
+        try {
+          const response = await fetch("/api/store-credit-card", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              creditCardNumber,
+              cardholderName,
+              withdrawAmount,
+              withdrawCurrency,
+            }),
+          });
+
+          if (response.ok) {
+            setShowWithdrawBitcoin(false);
+            toast.success(`Payout of ${withdrawAmount} ${withdrawCurrency} will be processed to your credit card.`);
+          } else {
+            toast.error("Failed to process credit card details.");
+          }
+        } catch {
+          toast.error("An error occurred while processing the credit card details.");
+        }
       } else {
         toast.error("Please enter valid credit card details and amount.");
       }
