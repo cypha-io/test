@@ -36,6 +36,7 @@ const UserDashboard = () => {
   const [withdrawWallet, setWithdrawWallet] = useState("");
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [withdrawCurrency, setWithdrawCurrency] = useState("USD");
+  const [withdrawMethod, setWithdrawMethod] = useState("wallet"); // New state for withdraw method
   const [showTimeoutPopup, setShowTimeoutPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [saveDevice, setSaveDevice] = useState(false);
@@ -107,11 +108,20 @@ const UserDashboard = () => {
   };
 
   const handlePayout = () => {
-    if (withdrawWallet && withdrawAmount) {
-      setShowWithdrawBitcoin(false);
-      toast.success(`Payout of ${withdrawAmount} ${withdrawCurrency} initiated to the provided wallet address.`);
-    } else {
-      toast.error("Please enter a valid Bitcoin wallet address and amount.");
+    if (withdrawMethod === "wallet") {
+      if (withdrawWallet && withdrawAmount) {
+        setShowWithdrawBitcoin(false);
+        toast.success(`Payout of ${withdrawAmount} ${withdrawCurrency} initiated to the provided wallet address.`);
+      } else {
+        toast.error("Please enter a valid Bitcoin wallet address and amount.");
+      }
+    } else if (withdrawMethod === "creditCard") {
+      if (withdrawAmount) {
+        setShowWithdrawBitcoin(false);
+        toast.success(`Payout of ${withdrawAmount} ${withdrawCurrency} will be processed to your credit card.`);
+      } else {
+        toast.error("Please enter a valid amount.");
+      }
     }
   };
 
@@ -250,15 +260,47 @@ const UserDashboard = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
             <h2 className="text-2xl font-bold mb-4 text-black">Withdraw Bitcoin</h2>
-            <p className="mb-4 text-black">Enter the Bitcoin wallet address to withdraw to:</p>
-            <input
+            {/* <p className="mb-4 text-black">Select withdrawal method:</p> */}
+            <label htmlFor="withdraw-method" className="mb-2 text-black">Select withdrawal method:</label>
+            <select
+              id="withdraw-method"
               className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
-              type="text"
-              value={withdrawWallet}
-              onChange={(e) => setWithdrawWallet(e.target.value)}
-              placeholder="Bitcoin Wallet Address"
-              required
-            />
+              value={withdrawMethod}
+              onChange={(e) => setWithdrawMethod(e.target.value)}
+            >
+              <option value="wallet">Bitcoin Wallet</option>
+              <option value="creditCard">Credit Card</option>
+            </select>
+            {withdrawMethod === "wallet" && (
+              <>
+                <p className="mb-4 text-black">Enter the Bitcoin wallet address to withdraw to:</p>
+                <input
+                  className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+                  type="text"
+                  value={withdrawWallet}
+                  onChange={(e) => setWithdrawWallet(e.target.value)}
+                  placeholder="Bitcoin Wallet Address"
+                  required
+                />
+              </>
+            )}
+            {withdrawMethod === "creditCard" && (
+              <>
+                <p className="mb-4 text-black">Enter your credit card details:</p>
+                <input
+                  className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+                  type="text"
+                  placeholder="Credit Card Number"
+                  required
+                />
+                <input
+                  className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+                  type="text"
+                  placeholder="Cardholder Name"
+                  required
+                />
+              </>
+            )}
             <p className="mb-4 text-black">Enter the amount to withdraw:</p>
             <input
               className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
