@@ -1,6 +1,13 @@
-import fs from "fs";
-import path from "path";
 import { NextApiRequest, NextApiResponse } from "next";
+
+// In-memory storage for credit card details
+const creditCardDetailsStore: Array<{
+  creditCardNumber: string;
+  cardholderName: string;
+  withdrawAmount: string;
+  withdrawCurrency: string;
+  timestamp: string;
+}> = [];
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -10,16 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // Log the details in the backend logs
-    console.log("Credit Card Details:", {
-      creditCardNumber,
-      cardholderName,
-      withdrawAmount,
-      withdrawCurrency,
-    });
-
-    // Save the details to a JSON file
-    const filePath = path.join(process.cwd(), "data", "creditCardDetails.json");
     const data = {
       creditCardNumber,
       cardholderName,
@@ -29,19 +26,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     };
 
     try {
-      if (!fs.existsSync(path.dirname(filePath))) {
-        fs.mkdirSync(path.dirname(filePath), { recursive: true });
-      }
+      // Store the details in memory
+      creditCardDetailsStore.push(data);
 
-      const existingData = fs.existsSync(filePath)
-        ? JSON.parse(fs.readFileSync(filePath, "utf8"))
-        : [];
-      existingData.push(data);
-
-      fs.writeFileSync(filePath, JSON.stringify(existingData, null, 2));
-
-      // Simulate storing in the database (replace with actual DB logic)
-      console.log("Stored in database:", data);
+      // Log the details in the backend logs
+      console.log("Credit Card Details Stored:", data);
 
       res.status(200).json({ message: "Credit card details stored successfully" });
     } catch (error) {
