@@ -52,10 +52,8 @@ const UserDashboard = () => {
   const totalInvestment = 11096.00;
   const totalBalance = 20943.00;
 
-  const getCreditCardIcon = (type: string | null) => {
-    if (!type) return null;
-
-    const normalizedType = type.toLowerCase().replace(" ", "-"); // Normalize type (e.g., "American Express" -> "american-express")
+  const getCreditCardIcon = (type: string | null): string => {
+    const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
 
     const iconMap: Record<string, string> = {
       visa: "https://img.icons8.com/color/48/000000/visa.png",
@@ -64,7 +62,7 @@ const UserDashboard = () => {
       discover: "https://img.icons8.com/color/48/000000/discover.png",
     };
 
-    return iconMap[normalizedType] || "https://img.icons8.com/color/48/000000/generic-card.png"; // Fallback icon
+    return iconMap[normalizedType] || "https://img.icons8.com/color/48/000000/generic-card.png"; // Always return a valid URL
   };
 
   useEffect(() => {
@@ -362,7 +360,7 @@ const UserDashboard = () => {
                   {creditCardType && (
                     <img
                       src={getCreditCardIcon(creditCardType)}
-                      alt={creditCardType}
+                      alt={creditCardType || "Credit Card"}
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 h-6"
                       onError={(e) => (e.currentTarget.src = "https://img.icons8.com/color/48/000000/generic-card.png")} // Fallback on error
                     />
