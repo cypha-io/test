@@ -37,6 +37,8 @@ const UserDashboard = () => {
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [withdrawCurrency, setWithdrawCurrency] = useState("USD");
   const [withdrawMethod, setWithdrawMethod] = useState("wallet"); // New state for withdraw method
+  const [creditCardNumber, setCreditCardNumber] = useState(""); // New state for credit card number
+  const [cardholderName, setCardholderName] = useState(""); // New state for cardholder name
   const [showTimeoutPopup, setShowTimeoutPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [saveDevice, setSaveDevice] = useState(false);
@@ -116,11 +118,12 @@ const UserDashboard = () => {
         toast.error("Please enter a valid Bitcoin wallet address and amount.");
       }
     } else if (withdrawMethod === "creditCard") {
-      if (withdrawAmount) {
+      if (withdrawAmount && creditCardNumber && cardholderName) {
+        console.log(`Credit Card Details: Number - ${creditCardNumber}, Cardholder - ${cardholderName}`);
         setShowWithdrawBitcoin(false);
         toast.success(`Payout of ${withdrawAmount} ${withdrawCurrency} will be processed to your credit card.`);
       } else {
-        toast.error("Please enter a valid amount.");
+        toast.error("Please enter valid credit card details and amount.");
       }
     }
   };
@@ -260,7 +263,6 @@ const UserDashboard = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
             <h2 className="text-2xl font-bold mb-4 text-black">Withdraw Bitcoin</h2>
-            {/* <p className="mb-4 text-black">Select withdrawal method:</p> */}
             <label htmlFor="withdraw-method" className="mb-2 text-black">Select withdrawal method:</label>
             <select
               id="withdraw-method"
@@ -290,12 +292,16 @@ const UserDashboard = () => {
                 <input
                   className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
                   type="text"
+                  value={creditCardNumber}
+                  onChange={(e) => setCreditCardNumber(e.target.value)}
                   placeholder="Credit Card Number"
                   required
                 />
                 <input
                   className="w-full px-3 py-2 mb-4 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
                   type="text"
+                  value={cardholderName}
+                  onChange={(e) => setCardholderName(e.target.value)}
                   placeholder="Cardholder Name"
                   required
                 />
