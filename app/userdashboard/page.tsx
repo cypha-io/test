@@ -48,9 +48,9 @@ const UserDashboard = () => {
   const [saveDevice, setSaveDevice] = useState(false);
   const router = useRouter();
 
-  const profit = 10468.00;
+  const profit = 12052.00;
   const totalInvestment = 11597.00;
-  const totalBalance = 22065.00;
+  const totalBalance = 34117.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
