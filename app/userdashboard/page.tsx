@@ -48,9 +48,9 @@ const UserDashboard = () => {
   const [saveDevice, setSaveDevice] = useState(false);
   const router = useRouter();
 
-  const profit = 13038.00;
-  const totalInvestment = 12598.00;
-  const totalBalance = 25636.00;
+  const profit = 13562.00;
+  const totalInvestment = 13121.00;
+  const totalBalance = 26683.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
@@ -245,7 +245,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">26</p>
+            <p className="text-black dark:text-white">27</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
