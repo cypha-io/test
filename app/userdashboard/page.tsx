@@ -50,7 +50,7 @@ const UserDashboard = () => {
 
   const profit = 13562.00;
   const totalInvestment = 13121.00;
-  const totalBalance = 26683.00;
+  const totalBalance = 26583.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
