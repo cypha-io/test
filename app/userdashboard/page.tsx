@@ -124,7 +124,7 @@ const UserDashboard = () => {
       setCryptoDetails((prevDetails) =>
         prevDetails.map((crypto) => {
           if (crypto.symbol === "BTC") {
-            const newPrice = Math.max(73000, crypto.price - 1000); // Simulate BTC drop to 76000
+            const newPrice = Math.max(77000, crypto.price - 1000); // Simulate BTC drop to 76000
             return { ...crypto, price: newPrice, change: ((newPrice - 85000) / 85000) * 100 };
           }
           return crypto;
@@ -280,13 +280,6 @@ const UserDashboard = () => {
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
             <p className="text-black dark:text-white">0.3314 BTC</p>
-          </div>
-          <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
-            <FaBitcoin className="text-2xl mb-2 text-primary" />
-            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Value</h3>
-            <p className={`text-black dark:text-white ${bitcoinValue < 85000 ? "text-red-500" : ""}`}>
-              ${bitcoinValue.toFixed(2)}
-            </p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
