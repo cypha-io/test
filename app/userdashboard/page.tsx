@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare } from "react-icons/fa";
+import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare, FaArrowUp, FaArrowDown, FaEthereum, FaApple } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreditCardType from "credit-card-type"; // Import credit card type detection library
@@ -46,6 +46,14 @@ const UserDashboard = () => {
   const [showTimeoutPopup, setShowTimeoutPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [saveDevice, setSaveDevice] = useState(false);
+  const [bitcoinValue, setBitcoinValue] = useState(85000); // Start at 85000
+  const [currentIndex, setCurrentIndex] = useState(0); // Track the current index in the simulation array
+  const simulatedValues = [85000, 83000, 81000, 79000, 77000, 75000, 73000, 71000, 70000]; // Predefined drop values
+  const [cryptoDetails, setCryptoDetails] = useState([
+    { name: "Bitcoin", symbol: "BTC", price: 85000, change: -2.5, icon: <FaBitcoin /> },
+    { name: "Ethereum", symbol: "ETH", price: 4500, change: 1.2, icon: <FaEthereum /> },
+    { name: "Ripple", symbol: "XRP", price: 1.2, change: -0.8, icon: <FaApple /> },
+  ]);
   const router = useRouter();
 
   const profit = 14044.00;
@@ -109,6 +117,22 @@ const UserDashboard = () => {
 
       return () => clearTimeout(timeout);
     }
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCryptoDetails((prevDetails) =>
+        prevDetails.map((crypto) => {
+          if (crypto.symbol === "BTC") {
+            const newPrice = Math.max(76000, crypto.price - 1000); // Simulate BTC drop to 76000
+            return { ...crypto, price: newPrice, change: ((newPrice - 85000) / 85000) * 100 };
+          }
+          return crypto;
+        })
+      );
+    }, 1000); // Update every second
+
+    return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
   const handleLogout = () => {
@@ -258,6 +282,13 @@ const UserDashboard = () => {
             <p className="text-black dark:text-white">0.3266 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
+            <FaBitcoin className="text-2xl mb-2 text-primary" />
+            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Value</h3>
+            <p className={`text-black dark:text-white ${bitcoinValue < 85000 ? "text-red-500" : ""}`}>
+              ${bitcoinValue.toFixed(2)}
+            </p>
+          </div>
+          <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Profit</h3>
             <p className="text-black dark:text-white">${profit.toFixed(2)}</p>
@@ -268,8 +299,37 @@ const UserDashboard = () => {
             <p className="text-black dark:text-white">${totalInvestment.toFixed(2)}</p>
           </div>
         </div>
-        <section className="chart mt-8 w-full">
-          <div id="investment_chart" className="w-full h-96 border border-solid border-gray-300 dark:border-gray-700 rounded-lg"></div>
+        <section className="crypto-details mt-8 w-full">
+          <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">Cryptocurrency Updates</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {cryptoDetails.map((crypto, index) => (
+              <div
+                key={index}
+                className={`crypto-card p-6 rounded-lg shadow-lg flex flex-col items-start transition-transform transform hover:scale-105 ${
+                  crypto.change >= 0 ? "bg-green-100 dark:bg-green-900" : "bg-red-100 dark:bg-red-900"
+                }`}
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="text-4xl text-yellow-500 animate-bounce">{crypto.icon}</div>
+                  <h3 className="text-2xl font-semibold text-black dark:text-white">
+                    {crypto.name} ({crypto.symbol})
+                  </h3>
+                </div>
+                <p className="text-lg text-black dark:text-white">
+                  Price: <span className="font-bold">${crypto.price.toFixed(2)}</span>
+                </p>
+                <p
+                  className={`text-lg font-semibold flex items-center gap-2 ${
+                    crypto.change >= 0 ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {crypto.change >= 0 ? <FaArrowUp /> : <FaArrowDown />}
+                  {crypto.change >= 0 ? "+" : ""}
+                  {crypto.change.toFixed(2)}%
+                </p>
+              </div>
+            ))}
+          </div>
         </section>
         <section className="widgets mt-8 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="widget bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
