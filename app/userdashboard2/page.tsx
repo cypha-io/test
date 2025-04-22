@@ -30,7 +30,7 @@ declare global {
   }
 }
 
-const UserDashboard = () => {
+const UserDashboard2 = () => {
   const [darkMode] = useState(false);
   const [showBuyBitcoin, setShowBuyBitcoin] = useState(false);
   const [showWithdrawBitcoin, setShowWithdrawBitcoin] = useState(false);
@@ -241,7 +241,7 @@ const UserDashboard = () => {
     <div className={`min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)] ${darkMode ? "dark" : ""}`}>
       <ToastContainer />
       <header className="flex flex-col items-center sm:items-start mb-4 w-full">
-        <h1 className="text-4xl font-bold text-black dark:text-white">Welcome Don Mullins</h1>
+        <h1 className="text-4xl font-bold text-black dark:text-white">Welcome Stanley Petrus</h1>
         <div className="flex gap-4 mt-4">
           <button
             className="border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
@@ -522,4 +522,4 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+export default UserDashboard2;

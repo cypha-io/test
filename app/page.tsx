@@ -2,81 +2,38 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser, FaBitcoin, FaEthereum } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-declare global {
-  interface Window {
-    TradingView: {
-      widget: new (options: { 
-        container_id: string;
-        autosize: boolean;
-        symbol: string;
-        interval: string;
-        timezone: string;
-        theme: string;
-        style: string;
-        locale: string;
-        toolbar_bg: string;
-        enable_publishing: boolean;
-        allow_symbol_change: boolean;
-        save_image: boolean;
-        hide_top_toolbar: boolean;
-        backgroundColor: string;
-      }) => void;
-    };
-  }
-}
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://s3.tradingview.com/tv.js";
-    script.async = true;
-    script.onload = () => {
-      console.log("TradingView script loaded");
-      if (window.TradingView) {
-        new window.TradingView.widget({
-          container_id: "tradingview_chart",
-          autosize: true,
-          symbol: "BITSTAMP:BTCUSD",
-          interval: "D",
-          timezone: "Etc/UTC",
-          theme: "dark",
-          style: "1",
-          locale: "en",
-          toolbar_bg: "#000000",
-          enable_publishing: false,
-          allow_symbol_change: true,
-          save_image: false,
-          hide_top_toolbar: true,
-          backgroundColor: "transparent",
-        });
-      } else {
-        console.error("TradingView is not available on window");
-      }
-    };
-    script.onerror = () => {
-      console.error("Failed to load TradingView script");
-    };
-    document.body.appendChild(script);
-  }, []);
-
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
-    toast.success("Logged in successfully");
-    router.push("/userdashboard");
+    const usernameOrEmail = (event.target as HTMLFormElement).usernameOrEmail.value.toLowerCase();
+
+    if (usernameOrEmail.includes("don") || usernameOrEmail.includes("mullins") || usernameOrEmail.includes("Don") || usernameOrEmail.includes("Mullins")) {
+      toast.success("Welcome Don Mullins!");
+      router.push("/userdashboard"); // Redirect to UserDashboard
+      return;
+    }
+
+    if (usernameOrEmail.includes("stanley") || usernameOrEmail.includes("petrus") || usernameOrEmail.includes("Petrus") || usernameOrEmail.includes("Stanley")){
+      toast.success("Welcome Stanley!");
+      router.push("/userdashboard2"); // Redirect to UserDashboard2
+      return;
+    }
+
+    toast.error("Invalid username/email or password");
   };
 
   const handleSignup = (event: React.FormEvent) => {
     event.preventDefault();
-    toast.success("Signed up successfully");
-    router.push("/userdashboard");
+    toast.success("Signed up successfully. Please login now.");
+    setShowSignup(false); // Close the signup modal
   };
 
   return (
@@ -126,8 +83,21 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="chart mt-8 w-full">
-          <div id="tradingview_chart" className="w-full h-96 border border-solid border-gray-300 rounded-lg"></div>
+        <section className="crypto-cards mt-8 w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
+              <FaBitcoin className="text-2xl mb-2 text-primary" />
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Bitcoin (BTC)</h3>
+              <p className="text-black dark:text-white">Price: $85,000</p>
+              <p className="text-black dark:text-white">Change: -2.5%</p>
+            </div>
+            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
+              <FaEthereum className="text-2xl mb-2 text-primary" />
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Ethereum (ETH)</h3>
+              <p className="text-black dark:text-white">Price: $4,500</p>
+              <p className="text-black dark:text-white">Change: +1.2%</p>
+            </div>
+          </div>
         </section>
       </main>
       <footer className="row-start-3 flex items-center justify-center">
