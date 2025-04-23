@@ -74,30 +74,48 @@ const UserDashboard2 = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const script = document.createElement("script");
-      script.src = "https://s3.tradingview.com/tv.js";
-      script.async = true;
-      script.onload = () => {
-        if (window.TradingView) {
+      const scriptId = "tradingview-widget-script";
+      const containerId = "tradingview_chart";
+
+      const initializeWidget = () => {
+        const container = document.getElementById(containerId);
+        if (window.TradingView && container) {
           new window.TradingView.widget({
-            container_id: "tradingview_chart",
+            container_id: containerId,
             autosize: true,
-            symbol: "BITSTAMP:BTCUSD",
-            interval: "D",
+            symbol: "BITSTAMP:BTCUSD", // Ensure the symbol is valid
+            interval: "D", // Daily interval
             timezone: "Etc/UTC",
             theme: darkMode ? "dark" : "light",
             style: "1",
             locale: "en",
-            toolbar_bg: "#000000",
+            toolbar_bg: "#f1f3f6",
             enable_publishing: false,
             allow_symbol_change: true,
             save_image: false,
-            hide_top_toolbar: true,
+            hide_top_toolbar: false, // Show the top toolbar for better interaction
             backgroundColor: "transparent",
           });
+        } else {
+          console.error("TradingView is not available or container is missing");
         }
       };
-      document.body.appendChild(script);
+
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement("script");
+        script.id = scriptId;
+        script.src = "https://s3.tradingview.com/tv.js";
+        script.async = true;
+        script.onload = () => {
+          setTimeout(initializeWidget, 100); // Add a slight delay to ensure the DOM is fully rendered
+        };
+        script.onerror = () => {
+          console.error("Failed to load TradingView script");
+        };
+        document.body.appendChild(script);
+      } else {
+        setTimeout(initializeWidget, 100); // Add a slight delay to ensure the DOM is fully rendered
+      }
     }
   }, [darkMode]);
 
@@ -280,41 +298,9 @@ const UserDashboard2 = () => {
             <p className="text-black dark:text-white">${totalInvestment.toFixed(2)}</p>
           </div>
         </div>
-        <section className="crypto-details mt-8 w-full">
-          <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">Cryptocurrency Updates</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cryptoDetails.map((crypto, index) => (
-              <div
-                key={index}
-                className={`crypto-card p-6 rounded-lg shadow-lg flex flex-col items-start transition-transform transform hover:scale-105 ${
-                  crypto.change >= 0 ? "bg-green-100 dark:bg-green-900" : "bg-red-100 dark:bg-red-900"
-                }`}
-              >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="text-4xl text-yellow-500 animate-bounce">{crypto.icon}</div>
-                  <h3 className="text-2xl font-semibold text-black dark:text-white">
-                    {crypto.name} ({crypto.symbol})
-                  </h3>
-                </div>
-                <p className="text-lg text-black dark:text-white">
-                  Price: <span className="font-bold">${crypto.price.toFixed(2)}</span>
-                </p>
-                <p
-                  className={`text-lg font-semibold flex items-center gap-2 ${
-                    crypto.change >= 0 ? "text-green-500" : "text-red-500"
-                  }`}
-                >
-                  {crypto.change >= 0 ? <FaArrowUp /> : <FaArrowDown />}
-                  {crypto.change >= 0 ? "+" : ""}
-                  {crypto.change.toFixed(2)}%
-                </p>
-              </div>
-            ))}
-          </div>
-        </section>
         <section className="tradingview mt-8 w-full">
           <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">Real-Time Market Chart</h2>
-          <div id="tradingview_chart" className="w-full h-96 border border-solid border-gray-300 rounded-lg"></div>
+          <div id="investment_chart" className="w-full h-96 border border-solid border-gray-300 rounded-lg"></div>
         </section>
         <section className="widgets mt-8 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="widget bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">

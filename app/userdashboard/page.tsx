@@ -73,41 +73,6 @@ const UserDashboard = () => {
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const script = document.createElement("script");
-      script.src = "https://s3.tradingview.com/tv.js";
-      script.async = true;
-      script.onload = () => {
-        console.log("TradingView script loaded");
-        if (window.TradingView) {
-          new window.TradingView.widget({
-            container_id: "investment_chart",
-            autosize: true,
-            symbol: "BITSTAMP:BTCUSD",
-            interval: "W",
-            timezone: "Etc/UTC",
-            theme: darkMode ? "dark" : "light",
-            style: "1",
-            locale: "en",
-            toolbar_bg: "#000000",
-            enable_publishing: false,
-            allow_symbol_change: true,
-            save_image: false,
-            hide_top_toolbar: true,
-            backgroundColor: "transparent",
-          });
-        } else {
-          console.error("TradingView is not available on window");
-        }
-      };
-      script.onerror = () => {
-        console.error("Failed to load TradingView script");
-      };
-      document.body.appendChild(script);
-    }
-  }, [darkMode]);
-
-  useEffect(() => {
     const savedDevice = localStorage.getItem("saveDevice");
     if (!savedDevice) {
       const timeout = setTimeout(() => {
