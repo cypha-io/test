@@ -1,29 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaEnvelope, FaLock, FaUser, FaBitcoin, FaEthereum } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaUser, FaBitcoin, FaEthereum, FaChartLine, FaShieldAlt, FaMobileAlt, FaGlobe } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const router = useRouter();
 
+  const partnerLogos = [
+    "https://img.icons8.com/color/48/000000/visa.png",
+    "https://img.icons8.com/color/48/000000/mastercard.png",
+    "https://img.icons8.com/color/48/000000/paypal.png",
+    "https://img.icons8.com/color/48/000000/amex.png",
+    "https://img.icons8.com/color/48/000000/bitcoin.png",
+    "https://img.icons8.com/color/48/000000/ethereum.png",
+    "https://img.icons8.com/color/48/000000/google-wallet.png",
+    "https://img.icons8.com/color/48/000000/apple-pay.png",
+  ];
+
+  const sliderSettings = {
+    dots: false,
+    infinite: true,
+    speed: 1500, // Increased speed for faster movement
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 20, // Faster autoplay interval
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
     const usernameOrEmail = (event.target as HTMLFormElement).usernameOrEmail.value.toLowerCase();
 
-    if (usernameOrEmail.includes("don") || usernameOrEmail.includes("mullins") || usernameOrEmail.includes("Don") || usernameOrEmail.includes("Mullins")) {
+    if (usernameOrEmail.includes("don") || usernameOrEmail.includes("mullins")) {
       toast.success("Welcome Don Mullins!");
-      router.push("/userdashboard"); // Redirect to UserDashboard
+      router.push("/userdashboard");
       return;
     }
 
-    if (usernameOrEmail.includes("stanley") || usernameOrEmail.includes("petrus") || usernameOrEmail.includes("Petrus") || usernameOrEmail.includes("Stanley")){
+    if (usernameOrEmail.includes("stanley") || usernameOrEmail.includes("petrus")) {
       toast.success("Welcome Stanley!");
-      router.push("/userdashboard2"); // Redirect to UserDashboard2
+      router.push("/userdashboard2");
       return;
     }
 
@@ -33,24 +77,27 @@ export default function Home() {
   const handleSignup = (event: React.FormEvent) => {
     event.preventDefault();
     toast.success("Signed up successfully. Please login now.");
-    setShowSignup(false); // Close the signup modal
+    setShowSignup(false);
   };
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex flex-col items-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <ToastContainer />
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <img
-          src="https://cryptologos.cc/logos/bitcoin-btc-logo.png"
-          alt="Bitcoin Logo"
-          width="100"
-          height="100"
-        />
-        <h1 className="text-4xl font-bold">Welcome to Bitvest.org</h1>
-        <p className="text-lg text-center sm:text-left">
+      <main className="container mx-auto flex-grow flex flex-col items-center p-8">
+        <div className="flex flex-col items-center">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/4/46/Bitcoin.svg"
+            alt="Bitcoin Logo"
+            width="100"
+            height="100"
+            className="mb-4"
+          />
+          <h2 className="text-4xl font-bold text-center sm:text-left">Welcome to Bitvest.org</h2>
+        </div>
+        <p className="text-lg text-center sm:text-left mt-4">
           Discover the future of finance with Bitcoin. Secure, decentralized, and global.
         </p>
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
+        <div className="flex gap-4 items-center flex-col sm:flex-row mt-8">
           <button
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
             onClick={() => setShowLogin(true)}
@@ -64,44 +111,104 @@ export default function Home() {
             Sign Up
           </button>
         </div>
-        <section className="features mt-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-            <div className="card">
-              <img src="https://img.icons8.com/ios-filled/50/ffffff/security-checked.png" alt="Secure Transactions" className="icon" />
-              <h3 className="text-xl font-semibold">Secure Transactions</h3>
-              <p>Experience the security of blockchain technology.</p>
+
+        {/* Features Section */}
+        <section className="features mt-12 w-full">
+          <h2 className="text-3xl font-bold mb-6 text-center sm:text-left">Why Choose Bitvest?</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <FaShieldAlt className="text-4xl mb-4 text-yellow-500" />
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Secure Transactions</h3>
+              <p className="text-black dark:text-white">Experience the security of blockchain technology.</p>
             </div>
-            <div className="card">
-              <img src="https://img.icons8.com/ios-filled/50/ffffff/globe.png" alt="Global Reach" className="icon" />
-              <h3 className="text-xl font-semibold">Global Reach</h3>
-              <p>Send and receive Bitcoin anywhere in the world.</p>
+            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <FaGlobe className="text-4xl mb-4 text-blue-500" />
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Global Reach</h3>
+              <p className="text-black dark:text-white">Send and receive Bitcoin anywhere in the world.</p>
             </div>
-            <div className="card">
-              <img src="https://img.icons8.com/ios-filled/50/ffffff/decentralized-network.png" alt="Decentralized Network" className="icon" />
-              <h3 className="text-xl font-semibold">Decentralized Network</h3>
-              <p>Join a network that is not controlled by any single entity.</p>
+            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <FaChartLine className="text-4xl mb-4 text-green-500" />
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Real-Time Analytics</h3>
+              <p className="text-black dark:text-white">Track market trends and make informed decisions.</p>
+            </div>
+            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <FaMobileAlt className="text-4xl mb-4 text-purple-500" />
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Mobile Friendly</h3>
+              <p className="text-black dark:text-white">Access your account anytime, anywhere.</p>
+            </div>
+            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <FaBitcoin className="text-4xl mb-4 text-orange-500" />
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Decentralized Network</h3>
+              <p className="text-black dark:text-white">Join a network that is not controlled by any single entity.</p>
+            </div>
+            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <FaEthereum className="text-4xl mb-4 text-indigo-500" />
+              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Multi-Currency Support</h3>
+              <p className="text-black dark:text-white">Trade Bitcoin, Ethereum, and more.</p>
             </div>
           </div>
         </section>
-        <section className="crypto-cards mt-8 w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
-              <FaBitcoin className="text-2xl mb-2 text-primary" />
-              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Bitcoin (BTC)</h3>
-              <p className="text-black dark:text-white">Price: $85,000</p>
-              <p className="text-black dark:text-white">Change: -2.5%</p>
+
+        {/* Partner Logos Slider */}
+        <section className="partners mt-16 w-full">
+          <h2 className="text-3xl font-bold mb-6 text-center sm:text-left">Our Trusted Partners</h2>
+          <Slider {...sliderSettings}>
+            {partnerLogos.map((logo, index) => (
+              <div key={index} className="flex justify-center">
+                <img src={logo} alt={`Partner ${index + 1}`} className="h-16 w-auto" />
+              </div>
+            ))}
+          </Slider>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="testimonials mt-16 w-full">
+          <h2 className="text-3xl font-bold mb-6 text-center sm:text-left">What Our Users Say</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="testimonial bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <p className="text-black dark:text-white italic">
+                &quot;Bitvest has revolutionized the way I trade Bitcoin. The platform is secure and easy to use!&quot;
+              </p>
+              <p className="mt-4 text-right text-black dark:text-white font-semibold">- John Doe</p>
             </div>
-            <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
-              <FaEthereum className="text-2xl mb-2 text-primary" />
-              <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Ethereum (ETH)</h3>
-              <p className="text-black dark:text-white">Price: $4,500</p>
-              <p className="text-black dark:text-white">Change: +1.2%</p>
+            <div className="testimonial bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <p className="text-black dark:text-white italic">
+                &quot;I love the real-time analytics and the global reach of Bitvest. Highly recommended!&quot;
+              </p>
+              <p className="mt-4 text-right text-black dark:text-white font-semibold">- Jane Smith</p>
+            </div>
+            <div className="testimonial bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <p className="text-black dark:text-white italic">
+                &quot;The mobile-friendly design makes it so convenient to manage my investments on the go.&quot;
+              </p>
+              <p className="mt-4 text-right text-black dark:text-white font-semibold">- Alex Johnson</p>
             </div>
           </div>
+        </section>
+
+        {/* Call to Action Section */}
+        <section className="cta mt-16 w-full text-center">
+          <h2 className="text-3xl font-bold mb-4 text-black dark:text-white">Ready to Start Your Bitcoin Journey?</h2>
+          <p className="text-lg mb-6 text-black dark:text-white">
+            Join thousands of users who trust Bitvest for their cryptocurrency needs.
+          </p>
+          <button
+            className="rounded-full bg-orange-500 text-white px-6 py-3 text-lg font-semibold hover:bg-orange-600 transition-colors"
+            onClick={() => setShowSignup(true)}
+          >
+            Get Started Now
+          </button>
         </section>
       </main>
-      <footer className="row-start-3 flex items-center justify-center">
-        <p>&copy; 2025 Bitvest. All rights reserved.</p>
+      <footer className="w-full bg-white dark:bg-gray-800 shadow-md py-4 px-8">
+        <div className="container mx-auto flex justify-between items-center">
+          <p className="text-gray-800 dark:text-gray-100">&copy; 2025 Bitvest. All rights reserved.</p>
+          <div className="flex gap-4">
+            <a href="#" className="text-gray-800 dark:text-gray-100 hover:underline">Privacy Policy</a>
+            <a href="#" className="text-gray-800 dark:text-gray-100 hover:underline">Terms of Service</a>
+            <a href="#" className="text-gray-800 dark:text-gray-100 hover:underline">Contact Us</a>
+          </div>
+        </div>
       </footer>
       {showLogin && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">

@@ -78,13 +78,12 @@ const UserDashboard2 = () => {
       script.src = "https://s3.tradingview.com/tv.js";
       script.async = true;
       script.onload = () => {
-        console.log("TradingView script loaded");
         if (window.TradingView) {
           new window.TradingView.widget({
-            container_id: "investment_chart",
+            container_id: "tradingview_chart",
             autosize: true,
             symbol: "BITSTAMP:BTCUSD",
-            interval: "W",
+            interval: "D",
             timezone: "Etc/UTC",
             theme: darkMode ? "dark" : "light",
             style: "1",
@@ -96,12 +95,7 @@ const UserDashboard2 = () => {
             hide_top_toolbar: true,
             backgroundColor: "transparent",
           });
-        } else {
-          console.error("TradingView is not available on window");
         }
-      };
-      script.onerror = () => {
-        console.error("Failed to load TradingView script");
       };
       document.body.appendChild(script);
     }
@@ -276,11 +270,6 @@ const UserDashboard2 = () => {
             <p className="text-black dark:text-white">${totalBalance.toFixed(2)}</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
-            <FaBitcoin className="text-2xl mb-2 text-primary" />
-            <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.03 BTC</p>
-          </div>
-          <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Profit</h3>
             <p className="text-black dark:text-white">${profit.toFixed(2)}</p>
@@ -322,6 +311,10 @@ const UserDashboard2 = () => {
               </div>
             ))}
           </div>
+        </section>
+        <section className="tradingview mt-8 w-full">
+          <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">Real-Time Market Chart</h2>
+          <div id="tradingview_chart" className="w-full h-96 border border-solid border-gray-300 rounded-lg"></div>
         </section>
         <section className="widgets mt-8 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="widget bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
