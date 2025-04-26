@@ -55,9 +55,9 @@ const UserDashboard = () => {
   ]);
   const router = useRouter();
 
-  const profit = 15044.00;
-  const totalInvestment = 14105.00;
-  const totalBalance = 29149.00;
+  const profit = 15895.00;
+  const totalInvestment = 14596.00;
+  const totalBalance = 30491.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
@@ -88,7 +88,7 @@ const UserDashboard = () => {
       setCryptoDetails((prevDetails) =>
         prevDetails.map((crypto) => {
           if (crypto.symbol === "BTC") {
-            const newPrice = Math.max(67000, crypto.price - 1000); // Simulate BTC drop to 76000
+            const newPrice = Math.max(75000, crypto.price - 1000); // Simulate BTC drop to 76000
             return { ...crypto, price: newPrice, change: ((newPrice - 85000) / 85000) * 100 };
           }
           return crypto;
@@ -233,7 +233,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">30</p>
+            <p className="text-black dark:text-white">31</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
