@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare, FaArrowUp, FaArrowDown, FaEthereum, FaApple } from "react-icons/fa";
+import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare, FaEthereum, FaApple } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreditCardType from "credit-card-type"; // Import credit card type detection library
@@ -48,7 +48,7 @@ const UserDashboard2 = () => {
   const [saveDevice, setSaveDevice] = useState(false);
   // Removed unused bitcoinValue state
   // Removed unused simulatedValues variable
-  const [cryptoDetails, setCryptoDetails] = useState([
+  const [, setCryptoDetails] = useState([
     { name: "Bitcoin", symbol: "BTC", price: 85000, change: -2.5, icon: <FaBitcoin /> },
     { name: "Ethereum", symbol: "ETH", price: 4500, change: 1.2, icon: <FaEthereum /> },
     { name: "Ripple", symbol: "XRP", price: 1.2, change: -0.8, icon: <FaApple /> },
