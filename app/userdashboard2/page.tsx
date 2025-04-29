@@ -55,9 +55,9 @@ const UserDashboard2 = () => {
   ]);
   const router = useRouter();
 
-  const profit = 914.00;
+  const profit = 1514.00;
   const totalInvestment = 2800.00;
-  const totalBalance = 3714.00;
+  const totalBalance = 4314.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
