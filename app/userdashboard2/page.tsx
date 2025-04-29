@@ -46,13 +46,43 @@ const UserDashboard2 = () => {
   const [showTimeoutPopup, setShowTimeoutPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [saveDevice, setSaveDevice] = useState(false);
-  // Removed unused bitcoinValue state
-  // Removed unused simulatedValues variable
-  const [, setCryptoDetails] = useState([
-    { name: "Bitcoin", symbol: "BTC", price: 85000, change: -2.5, icon: <FaBitcoin /> },
-    { name: "Ethereum", symbol: "ETH", price: 4500, change: 1.2, icon: <FaEthereum /> },
-    { name: "Ripple", symbol: "XRP", price: 1.2, change: -0.8, icon: <FaApple /> },
+  const [cryptoDetails, setCryptoDetails] = useState([
+    { name: "Bitcoin", symbol: "BTCUSD", price: 0, change: 0, icon: <FaBitcoin /> },
+    { name: "Ethereum", symbol: "ETHUSD", price: 0, change: 0, icon: <FaEthereum /> },
+    { name: "Ripple", symbol: "XRPUSD", price: 0, change: 0, icon: <FaApple /> },
   ]);
+
+  useEffect(() => {
+    const fetchCryptoData = async () => {
+      try {
+        const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple&vs_currencies=usd&include_24hr_change=true");
+        const data = await response.json();
+
+        setCryptoDetails((prevDetails) =>
+          prevDetails.map((crypto) => {
+            const apiKey = crypto.name.toLowerCase();
+            const updatedData = data[apiKey];
+            return updatedData
+              ? {
+                  ...crypto,
+                  price: updatedData.usd,
+                  change: updatedData.usd_24h_change,
+                }
+              : crypto;
+          })
+        );
+      } catch (error) {
+        console.error("Failed to fetch cryptocurrency data:", error);
+        toast.error("Failed to fetch cryptocurrency data.");
+      }
+    };
+
+    fetchCryptoData();
+    const interval = setInterval(fetchCryptoData, 10000); // Update every 10 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   const router = useRouter();
 
   const profit = 914.00;
@@ -128,22 +158,6 @@ const UserDashboard2 = () => {
 
       return () => clearTimeout(timeout);
     }
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCryptoDetails((prevDetails) =>
-        prevDetails.map((crypto) => {
-          if (crypto.symbol === "BTC") {
-            const newPrice = Math.max(75000, crypto.price - 1000); // Simulate BTC drop to 76000
-            return { ...crypto, price: newPrice, change: ((newPrice - 85000) / 85000) * 100 };
-          }
-          return crypto;
-        })
-      );
-    }, 1000); // Update every second
-
-    return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
   const handleLogout = () => {
@@ -298,9 +312,27 @@ const UserDashboard2 = () => {
             <p className="text-black dark:text-white">${totalInvestment.toFixed(2)}</p>
           </div>
         </div>
-        <section className="tradingview mt-8 w-full">
-          <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">Real-Time Market Chart</h2>
-          <div id="investment_chart" className="w-full h-96 border border-solid border-gray-300 rounded-lg"></div>
+        <section className="crypto-cards mt-8 w-full">
+          <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">Real-Time Cryptocurrency Values</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {cryptoDetails.map((crypto) => (
+              <div
+                key={crypto.symbol}
+                className={`card p-6 rounded-lg shadow-md ${
+                  crypto.change >= 0 ? "bg-green-100 dark:bg-green-800" : "bg-red-100 dark:bg-red-800"
+                }`}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  {crypto.icon}
+                  <h3 className="text-xl font-semibold text-black dark:text-white">{crypto.name}</h3>
+                </div>
+                <p className="text-black dark:text-white">Price: ${crypto.price.toFixed(2)}</p>
+                <p className={`text-black dark:text-white ${crypto.change >= 0 ? "text-green-500" : "text-red-500"}`}>
+                  Change: {crypto.change.toFixed(2)}%
+                </p>
+              </div>
+            ))}
+          </div>
         </section>
         <section className="widgets mt-8 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="widget bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
