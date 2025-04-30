@@ -88,7 +88,7 @@ const UserDashboard = () => {
       setCryptoDetails((prevDetails) =>
         prevDetails.map((crypto) => {
           if (crypto.symbol === "BTC") {
-            const newPrice = Math.max(77000, crypto.price - 1000); // Simulate BTC drop to 76000
+            const newPrice = Math.max(69000, crypto.price - 1000); // Simulate BTC drop to 76000
             return { ...crypto, price: newPrice, change: ((newPrice - 85000) / 85000) * 100 };
           }
           return crypto;
