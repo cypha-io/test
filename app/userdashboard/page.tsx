@@ -56,7 +56,7 @@ const UserDashboard = () => {
   const router = useRouter();
 
   const profit = 17785.00;
-  const totalInvestment = 16039.00.00;
+  const totalInvestment = 16039.00;
   const totalBalance = 33824.00;
 
   const getCreditCardIcon = (type: string | null): string => {
