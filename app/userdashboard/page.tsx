@@ -55,9 +55,9 @@ const UserDashboard = () => {
   ]);
   const router = useRouter();
 
-  const profit = 23646.00;
+  const profit = 24146.00;
   const totalInvestment = 18977.00;
-  const totalBalance = 41175.00;
+  const totalBalance = 43123.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
@@ -88,7 +88,7 @@ const UserDashboard = () => {
       setCryptoDetails((prevDetails) =>
         prevDetails.map((crypto) => {
           if (crypto.symbol === "BTC") {
-            const newPrice = Math.max(61000, crypto.price - 1000); // Simulate BTC drop to 76000
+            const newPrice = Math.max(84000, crypto.price - 1000); // Simulate BTC drop to 76000
             return { ...crypto, price: newPrice, change: ((newPrice - 85000) / 85000) * 100 };
           }
           return crypto;
