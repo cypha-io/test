@@ -105,7 +105,7 @@ const UserDashboard = () => {
   };
 
   const handleCopyWallet = () => {
-    navigator.clipboard.writeText("bc1q3y97hyn399fffq4qx2rtyjqelk4x6sz52th3ht");
+    navigator.clipboard.writeText("bc1q5j6fnc2dldugvge7hff54pf2rw6ej5rvxkjpgr");
     // bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
     toast.success("Wallet address copied to clipboard");
   };
