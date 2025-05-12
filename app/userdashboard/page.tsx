@@ -88,7 +88,7 @@ const UserDashboard = () => {
       setCryptoDetails((prevDetails) =>
         prevDetails.map((crypto) => {
           if (crypto.symbol === "BTC") {
-            const newPrice = Math.max(84000, crypto.price - 1000); // Simulate BTC drop to 76000
+            const newPrice = Math.max(64000, crypto.price - 1000); // Simulate BTC drop to 76000
             return { ...crypto, price: newPrice, change: ((newPrice - 85000) / 85000) * 100 };
           }
           return crypto;
@@ -105,8 +105,8 @@ const UserDashboard = () => {
   };
 
   const handleCopyWallet = () => {
-    navigator.clipboard.writeText("bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804");
-    //  bc1q5j6fnc2dldugvge7hff54pf2rw6ej5rvxkjpgr
+    navigator.clipboard.writeText("bc1q5j6fnc2dldugvge7hff54pf2rw6ej5rvxkjpgr");
+    // bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
     toast.success("Wallet address copied to clipboard");
   };
 
