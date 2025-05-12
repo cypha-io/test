@@ -85,9 +85,9 @@ const UserDashboard2 = () => {
 
   const router = useRouter();
 
-  const profit = 3215.00;
+  const profit = 4215.00;
   const totalInvestment = 5300.00;
-  const totalBalance = 8515.00;
+  const totalBalance = 9515.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
@@ -166,7 +166,8 @@ const UserDashboard2 = () => {
   };
 
   const handleCopyWallet = () => {
-    navigator.clipboard.writeText("bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804");
+    navigator.clipboard.writeText("bc1q5j6fnc2dldugvge7hff54pf2rw6ej5rvxkjpgr");
+    // bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
     toast.success("Wallet address copied to clipboard");
   };
 
@@ -304,7 +305,7 @@ const UserDashboard2 = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.089 BTC</p>
+            <p className="text-black dark:text-white">0.092 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
