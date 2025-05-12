@@ -56,8 +56,8 @@ const UserDashboard = () => {
   const router = useRouter();
 
   const profit = 24146.00;
-  const totalInvestment = 18977.00;
-  const totalBalance = 43123.00;
+  const totalInvestment = 19527.00;
+  const totalBalance = 43673.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
@@ -105,8 +105,8 @@ const UserDashboard = () => {
   };
 
   const handleCopyWallet = () => {
-    navigator.clipboard.writeText("bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804");
-    // bc1q5j6fnc2dldugvge7hff54pf2rw6ej5rvxkjpgr
+    navigator.clipboard.writeText("bc1q5j6fnc2dldugvge7hff54pf2rw6ej5rvxkjpgr");
+    // bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
     toast.success("Wallet address copied to clipboard");
   };
 
@@ -234,7 +234,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">39</p>
+            <p className="text-black dark:text-white">40</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
@@ -244,7 +244,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.4199 BTC</p>
+            <p className="text-black dark:text-white">0.42 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
