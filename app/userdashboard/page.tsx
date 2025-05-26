@@ -55,9 +55,9 @@ const UserDashboard = () => {
   ]);
   const router = useRouter();
 
-  const profit = 26649.00;
-  const totalInvestment = 26805.00;
-  const totalBalance = 53454.00;
+  const profit = 28226.00;
+  const totalInvestment = 27227.00;
+  const totalBalance = 55453.00;
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
@@ -234,7 +234,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">41</p>
+            <p className="text-black dark:text-white">42</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
@@ -244,7 +244,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.4425 BTC</p>
+            <p className="text-black dark:text-white">0.4437 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
