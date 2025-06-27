@@ -110,6 +110,11 @@ const UserDashboard = () => {
     toast.success("Wallet address copied to clipboard");
   };
 
+  const handleCopyCashApp = () => {
+    navigator.clipboard.writeText("$oafrigie123");
+    toast.success("CashApp address copied to clipboard");
+  };
+
   const handleAlreadyPaid = () => {
     setShowBuyBitcoin(false);
     toast.success("Payment confirmed! You will receive your Bitcoin shortly.");
@@ -314,11 +319,22 @@ const UserDashboard = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
             <h2 className="text-2xl font-bold mb-4 text-black">Buy Bitcoin</h2>
-            <p className="mb-4 text-black">Send Bitcoin to the following wallet address:</p>
-            <p className="mb-4 font-mono text-black flex items-center gap-2 cursor-pointer" onClick={handleCopyWallet}>
-              bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
-              <FaCopy className="text-lg" />
-            </p>
+            <div className="mb-6">
+              <p className="mb-4 text-black font-semibold">Option 1: Bitcoin Wallet Address</p>
+              <p className="mb-4 text-black">Send Bitcoin to the following wallet address:</p>
+              <p className="mb-4 font-mono text-black flex items-center gap-2 cursor-pointer bg-gray-100 p-3 rounded-lg" onClick={handleCopyWallet}>
+                bc1q23ldy4unkh6wggxunnnjzs0dewsuk53dahd804
+                <FaCopy className="text-lg hover:text-blue-500" />
+              </p>
+            </div>
+            <div className="mb-6 border-t pt-4">
+              <p className="mb-4 text-black font-semibold">Option 2: CashApp Payment</p>
+              <p className="mb-4 text-black">Send payment via CashApp to:</p>
+              <p className="mb-4 font-mono text-black flex items-center gap-2 cursor-pointer bg-green-100 p-3 rounded-lg" onClick={handleCopyCashApp}>
+                $oafrigie123
+                <FaCopy className="text-lg hover:text-green-600" />
+              </p>
+            </div>
             <div className="flex justify-end gap-4">
               <button
                 className="px-4 py-2 bg-gray-300 rounded-lg text-black"

@@ -70,6 +70,59 @@ body {
   }
 }
 
+@keyframes blob {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(30px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(249, 115, 22, 0.5);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
 .animate-fade-in {
   animation: fadeIn 1s ease-out;
 }
@@ -85,6 +138,30 @@ body {
 .animate-gradient {
   background-size: 200% 200%;
   animation: gradient-shift 3s ease infinite;
+}
+
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-slideInUp {
+  animation: slideInUp 0.4s ease-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
 }
 
 /* Gradient text utility */
@@ -103,6 +180,27 @@ body {
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Bitcoin-specific gradients */
+.bg-bitcoin-gradient {
+  background: linear-gradient(135deg, #f7931a 0%, #ff6b35 100%);
+}
+
+.text-bitcoin-gradient {
+  background: linear-gradient(135deg, #f7931a 0%, #ff6b35 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Modern hover effects */
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(247, 147, 26, 0.5);
+}
+
+.border-3 {
+  border-width: 3px;
 }
 
 footer {
@@ -159,4 +257,91 @@ footer img:hover {
   border: 1px solid var(--accent);
   border-radius: 12px;
   background-color: transparent;
+}
+
+/* Enhanced form styles */
+.form-checkbox {
+  background-color: rgba(31, 41, 55, 0.8);
+  border-color: rgba(107, 114, 128, 0.6);
+}
+
+.form-checkbox:checked {
+  background-color: rgb(147, 51, 234);
+  border-color: rgb(147, 51, 234);
+}
+
+.form-checkbox:focus {
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.5);
+}
+
+/* Modal backdrop enhancement */
+.modal-backdrop {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+/* Button hover animations */
+.btn-hover-scale {
+  transition: all 0.2s ease;
+}
+
+.btn-hover-scale:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.btn-hover-scale:active {
+  transform: scale(0.98);
+}
+
+/* Input focus effects */
+.input-focus-glow:focus {
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1), 0 0 20px rgba(147, 51, 234, 0.2);
+}
+
+/* Text gradient */
+.text-gradient {
+  background: linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Social button hover effects */
+.social-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.social-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.social-btn:hover::before {
+  left: 100%;
+}
+
+/* Glass card enhancement */
+.glass-card {
+  background: rgba(17, 25, 40, 0.6);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.125);
+  box-shadow: 
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Security badge styling */
+.security-badge {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
+  border: 1px solid rgba(34, 197, 94, 0.2);
 }
