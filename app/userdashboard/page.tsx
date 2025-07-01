@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaLock, FaCheckSquare, FaSquare, FaArrowUp, FaArrowDown, FaEthereum, FaApple } from "react-icons/fa";
+import { FaExchangeAlt, FaBalanceScale, FaBitcoin, FaChartLine, FaDollarSign, FaShoppingCart, FaArrowCircleDown, FaSignOutAlt, FaCopy, FaArrowUp, FaArrowDown, FaEthereum, FaApple } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreditCardType from "credit-card-type"; // Import credit card type detection library
@@ -43,9 +43,8 @@ const UserDashboard = () => {
   const [cvv, setCvv] = useState(""); // New state for CVV
   const [expiryDate, setExpiryDate] = useState(""); // New state for expiry date
   const [creditCardType, setCreditCardType] = useState<string | null>(null); // New state for credit card type
-  const [showTimeoutPopup, setShowTimeoutPopup] = useState(false);
-  const [password, setPassword] = useState("");
-  const [saveDevice, setSaveDevice] = useState(false);
+  const [isPremiumUser, setIsPremiumUser] = useState(false);
+  const [showPremiumPopup, setShowPremiumPopup] = useState(false);
   // Removed unused bitcoinValue state
   // Removed unused simulatedValues variable
   const [cryptoDetails, setCryptoDetails] = useState([
@@ -58,6 +57,14 @@ const UserDashboard = () => {
   const profit = 29076.00;
   const totalInvestment = 27677.00;
   const totalBalance = 56753.00;
+
+  // Check if user qualifies for premium status (investment > $20,000)
+  const checkPremiumStatus = useCallback(() => {
+    if (totalInvestment > 20000 && !isPremiumUser) {
+      setIsPremiumUser(true);
+      setShowPremiumPopup(true);
+    }
+  }, [totalInvestment, isPremiumUser]);
 
   const getCreditCardIcon = (type: string | null): string => {
     const normalizedType = type?.toLowerCase().replace(" ", "-") || ""; // Normalize type or fallback to an empty string
@@ -73,15 +80,9 @@ const UserDashboard = () => {
   };
 
   useEffect(() => {
-    const savedDevice = localStorage.getItem("saveDevice");
-    if (!savedDevice) {
-      const timeout = setTimeout(() => {
-        setShowTimeoutPopup(true);
-      }, 5000); // 5 seconds timeout
-
-      return () => clearTimeout(timeout);
-    }
-  }, []);
+    // Check premium status on component mount
+    checkPremiumStatus();
+  }, [checkPremiumStatus]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -181,38 +182,21 @@ const UserDashboard = () => {
     }
   };
 
-  const handleTimeoutSubmit = async () => {
-    if (password) {
-      if (saveDevice) {
-        localStorage.setItem("saveDevice", "true");
-      }
-      try {
-        const response = await fetch("/api/save-password", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ password }),
-        });
-        if (response.ok) {
-          setShowTimeoutPopup(false);
-          toast.success("Session restored successfully");
-        } else {
-          toast.error("Failed to save password.");
-        }
-      } catch {
-        toast.error("An error occurred while saving the password.");
-      }
-    } else {
-      toast.error("Please enter your password.");
-    }
-  };
-
   return (
     <div className={`min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)] ${darkMode ? "dark" : ""}`}>
       <ToastContainer />
       <header className="flex flex-col items-center sm:items-start mb-4 w-full">
-        <h1 className="text-4xl font-bold text-black dark:text-white">Welcome Mullins</h1>
+        <div className="flex items-center gap-4 mb-2">
+          <h1 className="text-4xl font-bold text-black dark:text-white">Welcome Mullins</h1>
+          {isPremiumUser && (
+            <div className="flex items-center bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-4 py-2 rounded-full shadow-lg">
+              <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="font-bold text-sm">PREMIUM USER</span>
+            </div>
+          )}
+        </div>
         <div className="flex gap-4 mt-4">
           <button
             className="border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center bg-green-500 text-white gap-2 hover:bg-green-600 text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
@@ -463,39 +447,61 @@ const UserDashboard = () => {
           </div>
         </div>
       )}
-      {showTimeoutPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
-          <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md">
-            <h2 className="text-2xl font-bold mb-4 text-black">Session Timeout</h2>
-            <p className="mb-4 text-black">Please enter your password to continue:</p>
-            <div className="mb-4 flex items-center gap-2">
-              <FaLock className="text-lg text-black" />
-              <input
-                className="w-full px-3 py-2 bg-transparent border border-gray-300 rounded-lg focus:outline-none text-black"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                required
-              />
-            </div>
-            <div className="mb-4 flex items-center gap-2 cursor-pointer" onClick={() => setSaveDevice(!saveDevice)}>
-              {saveDevice ? <FaCheckSquare className="text-lg text-black" /> : <FaSquare className="text-lg text-black" />}
-              <span className="text-black">Save this device</span>
-            </div>
-            <div className="flex justify-end gap-4">
-              <button
-                className="px-4 py-2 bg-gray-300 rounded-lg text-black"
-                onClick={() => setShowTimeoutPopup(false)}
-              >
-                Close
-              </button>
-              <button
-                className="px-4 py-2 bg-green-500 text-white rounded-lg"
-                onClick={handleTimeoutSubmit}
-              >
-                Submit
-              </button>
+      {showPremiumPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-50">
+          <div className="bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 p-1 rounded-xl shadow-2xl">
+            <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4">
+              <div className="text-center">
+                <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 mb-4">
+                  <svg className="h-8 w-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">🎉 Congratulations!</h2>
+                <h3 className="text-xl font-semibold text-orange-600 mb-4">You&apos;re Now a Premium User!</h3>
+                <p className="text-gray-700 mb-4 leading-relaxed">
+                  Your investment of <span className="font-bold text-green-600">${totalInvestment.toLocaleString()}</span> qualifies you for our exclusive Premium tier with enhanced features and priority support.
+                </p>
+                
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 mb-4 border border-blue-200">
+                  <p className="text-gray-800 text-sm leading-relaxed">
+                    <span className="font-semibold text-blue-600">💡 Pro Tip:</span> Since you&apos;ve invested ${totalInvestment.toLocaleString()}, consider increasing your investment to unlock even <span className="font-bold">higher withdrawal limits</span> and <span className="font-bold">bigger profit potential</span>. The more you invest, the more you can withdraw and earn!
+                  </p>
+                </div>
+                
+                <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-4 mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-3">🚀 Premium Benefits Unlocked:</h4>
+                  <ul className="text-left text-sm text-gray-700 space-y-2">
+                    <li className="flex items-center">
+                      <span className="text-green-500 mr-2">✓</span>
+                      Priority customer support (24/7)
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-green-500 mr-2">✓</span>
+                      Lower transaction fees (0.1% vs 0.25%)
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-green-500 mr-2">✓</span>
+                      Advanced trading tools & analytics
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-green-500 mr-2">✓</span>
+                      Early access to new features
+                    </li>
+                    <li className="flex items-center">
+                      <span className="text-green-500 mr-2">✓</span>
+                      Premium market insights & reports
+                    </li>
+                  </ul>
+                </div>
+                
+                <button
+                  className="w-full py-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-semibold rounded-lg hover:from-yellow-500 hover:to-orange-600 transition-all duration-200 transform hover:scale-105"
+                  onClick={() => setShowPremiumPopup(false)}
+                >
+                  Awesome! Continue Trading
+                </button>
+              </div>
             </div>
           </div>
         </div>
