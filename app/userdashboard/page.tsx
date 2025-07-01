@@ -54,9 +54,9 @@ const UserDashboard = () => {
   ]);
   const router = useRouter();
 
-  const profit = 29076.00;
-  const totalInvestment = 27677.00;
-  const totalBalance = 56753.00;
+  const profit = 31176;
+  const totalInvestment = 30887;
+  const totalBalance = 62063;
 
   // Check if user qualifies for premium status (investment > $20,000)
   const checkPremiumStatus = useCallback(() => {
@@ -89,7 +89,7 @@ const UserDashboard = () => {
       setCryptoDetails((prevDetails) =>
         prevDetails.map((crypto) => {
           if (crypto.symbol === "BTC") {
-            const newPrice = Math.max(59000, crypto.price - 1000); // Simulate BTC drop to 76000
+            const newPrice = Math.max(51000, crypto.price - 1000); // Simulate BTC drop to 76000
             return { ...crypto, price: newPrice, change: ((newPrice - 85000) / 85000) * 100 };
           }
           return crypto;
@@ -223,7 +223,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">43</p>
+            <p className="text-black dark:text-white">44</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
