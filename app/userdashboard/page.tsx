@@ -223,7 +223,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">44</p>
+            <p className="text-black dark:text-white">45</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
