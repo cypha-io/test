@@ -54,9 +54,9 @@ const UserDashboard = () => {
   ]);
   const router = useRouter();
 
-  const profit = 31176;
-  const totalInvestment = 31187;
-  const totalBalance = 62063;
+  const profit = 31864;
+  const totalInvestment = 31583;
+  const totalBalance = 63447;
 
   // Check if user qualifies for premium status (investment > $20,000)
   const checkPremiumStatus = useCallback(() => {
