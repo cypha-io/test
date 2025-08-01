@@ -45,6 +45,7 @@ const UserDashboard = () => {
   const [creditCardType, setCreditCardType] = useState<string | null>(null); // New state for credit card type
   const [isPremiumUser, setIsPremiumUser] = useState(false);
   const [showPremiumPopup, setShowPremiumPopup] = useState(false);
+  const [isKycVerified, setIsKycVerified] = useState(false); // New state for KYC verification status
   // Removed unused bitcoinValue state
   // Removed unused simulatedValues variable
   const [cryptoDetails, setCryptoDetails] = useState([
@@ -180,6 +181,18 @@ const UserDashboard = () => {
         toast.error("Please enter valid credit card details, CVV, expiry date, and amount.");
       }
     }
+  };
+
+  const handleIdMeVerification = () => {
+    // Simulate opening ID.me in a new window
+    window.open("https://www.id.me/", "_blank");
+    
+    // For demo purposes, we'll mark as verified after a short delay
+    // In a real app, this would be handled by ID.me callback
+    setTimeout(() => {
+      setIsKycVerified(true);
+      toast.success("KYC verification completed successfully!");
+    }, 3000);
   };
 
   return (
@@ -342,33 +355,69 @@ const UserDashboard = () => {
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-4 text-black">Withdraw Bitcoin</h2>
             
-            {/* KYC Verification Notice */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-6 mb-6">
-              <div className="flex items-start gap-3">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                    </svg>
+            {!isKycVerified ? (
+              // KYC Verification Required Screen
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-8 mb-6">
+                  <div className="flex flex-col items-center">
+                    <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-4">
+                      <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-bold text-blue-900 mb-4">KYC Verification Required</h3>
+                    <p className="text-blue-800 leading-relaxed mb-4">
+                      Before we process your withdrawal, the platform now requires a quick KYC (Know Your Customer) verification to ensure you&apos;re the rightful owner.
+                    </p>
+                    <p className="text-blue-800 leading-relaxed mb-6">
+                      We use <span className="font-semibold">ID.me</span> for this —it&apos;s a trusted U.S. government verification system. You&apos;ll only do this once. After that, we can release your full balance with no delay.
+                    </p>
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                      <div className="flex items-center gap-2 mb-2">
+                        <svg className="w-5 h-5 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                        </svg>
+                        <span className="font-semibold text-yellow-800">Important</span>
+                      </div>
+                      <p className="text-yellow-700 text-sm">
+                        You must complete ID.me verification to access the withdrawal form. This is a one-time security requirement.
+                      </p>
+                    </div>
+                    <button 
+                      onClick={handleIdMeVerification}
+                      className="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-medium transition-colors duration-200 flex items-center justify-center gap-3 mb-4"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
+                      </svg>
+                      Start ID.me Verification
+                    </button>
+                    <p className="text-gray-600 text-sm">
+                      This will open ID.me in a new window. Complete the verification and return here.
+                    </p>
                   </div>
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-blue-900 mb-2">KYC Verification Required</h3>
-                  <p className="text-blue-800 text-sm leading-relaxed mb-3">
-                    Before we process your withdrawal, the platform now requires a quick KYC (Know Your Customer) verification to ensure you&apos;re the rightful owner.
-                  </p>
-                  <p className="text-blue-800 text-sm leading-relaxed mb-4">
-                    We use <span className="font-semibold">ID.me</span> for this —it&apos;s a trusted U.S. government verification system. You&apos;ll only do this once. After that, we can release your full balance with no delay.
-                  </p>
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clipRule="evenodd" />
-                    </svg>
-                    Start ID.me Verification
+                <div className="flex justify-center">
+                  <button
+                    className="px-6 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg text-black transition-colors"
+                    onClick={() => setShowWithdrawBitcoin(false)}
+                  >
+                    Cancel
                   </button>
                 </div>
               </div>
-            </div>
+            ) : (
+              // Withdrawal Form (shown after KYC verification)
+              <>
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <div className="flex items-center gap-2">
+                  <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span className="font-semibold text-green-800">KYC Verified</span>
+                </div>
+                <p className="text-green-700 text-sm mt-1">Your identity has been verified. You can now proceed with your withdrawal.</p>
+              </div>
 
             <label htmlFor="withdraw-method" className="mb-2 text-black">Select withdrawal method:</label>
             <select
@@ -474,6 +523,8 @@ const UserDashboard = () => {
                 Payout
               </button>
             </div>
+            </>
+            )}
             </div>
           </div>
         </div>
