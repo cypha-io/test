@@ -65,8 +65,8 @@ export default function Home() {
       return;
     }
 
-    if (usernameOrEmail.includes("dav") || usernameOrEmail.includes("Dav")) {
-      toast.success("Welcome David!");
+    if (usernameOrEmail.includes("earl") || usernameOrEmail.includes("farr") || usernameOrEmail.includes("Earl")) {
+      toast.success("Welcome Earl!");
       router.push("/userdashboard2");
       return;
     }
