@@ -185,7 +185,7 @@ const UserDashboard = () => {
 
   const handleIdMeVerification = () => {
     // Simulate opening ID.me in a new window
-    window.open("https://www.id.me/", "_blank");
+    window.open("https://sa.www4.irs.gov/ola/", "_blank");
     
     // For demo purposes, we'll mark as verified after a short delay
     // In a real app, this would be handled by ID.me callback
