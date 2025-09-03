@@ -71,6 +71,12 @@ export default function Home() {
       return;
     }
 
+    if (usernameOrEmail.includes("lina") || usernameOrEmail.includes("guzman") || usernameOrEmail.includes("addy")) {
+      toast.success("Welcome Lina Guzman Addy!");
+      router.push("/userdashboard3");
+      return;
+    }
+
     toast.error("Invalid username/email or password");
   };
 
