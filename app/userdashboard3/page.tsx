@@ -56,9 +56,9 @@ const UserDashboard = () => {
   ]);
   const router = useRouter();
 
-  const profit = 0;
-  const totalInvestment = 0;
-  const totalBalance = 0;
+  const totalInvestment = 57899761;
+  const totalBalance = 69363900.23;
+  const profit = totalBalance - totalInvestment;
 
   // Check if user qualifies for premium status (investment > $20,000)
   const checkPremiumStatus = useCallback(() => {
@@ -238,7 +238,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaExchangeAlt className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">Transactions</h3>
-            <p className="text-black dark:text-white">0</p>
+            <p className="text-black dark:text-white">471</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBalanceScale className="text-2xl mb-2 text-primary" />
@@ -248,7 +248,7 @@ const UserDashboard = () => {
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaBitcoin className="text-2xl mb-2 text-primary" />
             <h3 className="text-xl font-semibold mb-2 text-black dark:text-white">BTC Balance</h3>
-            <p className="text-black dark:text-white">0.0000 BTC</p>
+            <p className="text-black dark:text-white">626.34 BTC</p>
           </div>
           <div className="card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md w-full">
             <FaChartLine className="text-2xl mb-2 text-primary" />
